@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.startup.suprisa.domain.utils.convertToNetworkError
+import com.templates.templateprodcheb.domain.utils.convertToNetworkError
 import com.templates.templateprodcheb.presentation.utils.UIState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

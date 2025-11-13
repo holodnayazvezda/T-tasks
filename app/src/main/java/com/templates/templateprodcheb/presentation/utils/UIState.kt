@@ -14,6 +14,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.templates.templateprodcheb.domain.utils.NetworkError
 import com.templates.templateprodcheb.domain.utils.convertToNetworkError
+import com.templates.templateprodcheb.presentation.utils.ui.placeholders.ErrorPlaceholder
+import com.templates.templateprodcheb.presentation.utils.ui.placeholders.LoadingPlaceholder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
