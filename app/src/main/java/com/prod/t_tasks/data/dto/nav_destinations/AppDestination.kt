@@ -1,4 +1,4 @@
-package com.prod.t_tasks.presentation.navigation
+package com.prod.t_tasks.data.dto.nav_destinations
 
 /**
  * Centralized list of application destinations.

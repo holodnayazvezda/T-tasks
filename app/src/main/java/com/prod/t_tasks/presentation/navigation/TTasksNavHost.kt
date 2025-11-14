@@ -5,8 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.prod.t_tasks.presentation.navigation.screens.DashboardScreen
-import com.prod.t_tasks.presentation.navigation.screens.SplashScreen
+import com.prod.t_tasks.data.dto.nav_destinations.AppDestination
+import com.prod.t_tasks.presentation.screens.DashboardScreen
+import com.prod.t_tasks.presentation.screens.SplashScreen
 
 @Composable
 fun TTasksNavHost(

@@ -1,4 +1,4 @@
-package com.prod.t_tasks.presentation.navigation.screens
+package com.prod.t_tasks.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
