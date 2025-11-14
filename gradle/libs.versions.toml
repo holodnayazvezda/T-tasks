@@ -7,6 +7,7 @@ coil = "2.7.0"
 composeBom = "2025.11.00"
 constraintlayoutCompose = "1.1.1"
 coreKtx = "1.17.0"
+coreSplashscreen = "1.2.0"
 datastorePreferences = "1.1.7"
 firebaseBom = "34.5.0"
 gson = "2.13.2"
@@ -46,6 +47,7 @@ androidx-camera-extensions = { module = "androidx.camera:camera-extensions", ver
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraxVersion" }
 androidx-camera-video = { module = "androidx.camera:camera-video", version.ref = "cameraxVersion" }
 androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraxVersion" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }

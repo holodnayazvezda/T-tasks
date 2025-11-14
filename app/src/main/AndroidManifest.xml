@@ -14,11 +14,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TemplateProdCheb">
+        android:theme="@style/Theme.App.Starting">
         <activity
             android:name=".presentation.main_activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.TemplateProdCheb">
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
 
-        <service  android:name="com.prod.t_tasks.FirebaseMessagingService"
+        <service
+            android:name="com.prod.t_tasks.FirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
