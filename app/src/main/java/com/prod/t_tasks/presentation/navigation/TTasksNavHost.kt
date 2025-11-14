@@ -1,6 +1,7 @@
 package com.prod.t_tasks.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,7 +16,8 @@ import com.prod.t_tasks.presentation.screens.SplashScreen
 fun TTasksNavHost(
 	navController: NavHostController,
 	modifier: Modifier = Modifier,
-	startDestination: AppDestination = AppDestination.Splash
+	startDestination: AppDestination = AppDestination.Splash,
+	sessionDestination: AppDestination? = null
 ) {
 	NavHost(
 		navController = navController,
@@ -23,13 +25,7 @@ fun TTasksNavHost(
 		modifier = modifier
 	) {
 		composable(AppDestination.Splash.route) {
-			SplashScreen(
-				onSplashFinished = {
-					navController.navigate(AppDestination.Login.route) {
-						popUpTo(AppDestination.Splash.route) { inclusive = true }
-					}
-				}
-			)
+			SplashScreen()
 		}
 		composable(AppDestination.Login.route) {
 			LoginScreen(
@@ -57,6 +53,22 @@ fun TTasksNavHost(
 		}
 		composable(AppDestination.Dashboard.route) {
 			DashboardScreen()
+		}
+	}
+
+	LaunchedEffect(sessionDestination) {
+		when (sessionDestination) {
+			AppDestination.Dashboard -> {
+				navController.navigate(AppDestination.Dashboard.route) {
+					popUpTo(AppDestination.Splash.route) { inclusive = true }
+				}
+			}
+			AppDestination.Login -> {
+				navController.navigate(AppDestination.Login.route) {
+					popUpTo(AppDestination.Splash.route) { inclusive = true }
+				}
+			}
+			else -> Unit
 		}
 	}
 }

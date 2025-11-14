@@ -6,6 +6,7 @@ import com.prod.t_tasks.data.data_providers.api.ApiKtorClient
 import com.prod.t_tasks.data.data_providers.localInfo.AuthorizationDataStore
 import com.prod.t_tasks.data.data_providers.local_db.AppDatabase
 import com.prod.t_tasks.data.data_providers.local_db.entities.UserEntity
+import com.prod.t_tasks.data.dto.auth.RefreshTokenRequest
 import com.prod.t_tasks.data.dto.auth.TokenResponse
 import com.prod.t_tasks.data.dto.auth.UserCreateRequest
 import com.prod.t_tasks.data.dto.auth.UserLoginRequest
@@ -15,6 +16,7 @@ import com.prod.t_tasks.domain.model.AuthPayload
 import com.prod.t_tasks.domain.model.AuthTokens
 import com.prod.t_tasks.domain.model.User
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single
 import io.ktor.http.ContentType
@@ -68,13 +70,11 @@ class AuthRepository(
 			setBody(request)
 		}.onSuccess { tokens ->
 			saveTokens(tokens)
-		}.flatMap { tokens ->
-			fetchProfile().map { user ->
-				AuthPayload(
-					user = user,
-					tokens = tokens.toDomain()
-				)
-			}
+		}.map { tokens ->
+			AuthPayload(
+				user = null,
+				tokens = tokens.toDomain()
+			)
 		}
 	}
 
@@ -87,6 +87,23 @@ class AuthRepository(
 		}.onSuccess { response ->
 			storeUser(response)
 		}.map { response -> response.toDomain() }
+	}
+
+	suspend fun refreshTokens(): Result<Unit> {
+		val refreshToken = authorizationDataStore.tokenPair.first().second
+		if (refreshToken.isBlank()) {
+			return Result.failure(IllegalStateException("Refresh token is empty"))
+		}
+		return networkRequest<TokenResponse> {
+			method = HttpMethod.Post
+			url {
+				path("api", "v1", "users", "token", "refresh")
+			}
+			contentType(ContentType.Application.Json)
+			setBody(RefreshTokenRequest(refreshToken))
+		}.onSuccess {
+			saveTokens(it)
+		}.map { }
 	}
 
 	private suspend fun storeUser(user: UserResponse) {

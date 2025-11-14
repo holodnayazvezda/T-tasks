@@ -14,6 +14,6 @@ data class AuthTokens(
 )
 
 data class AuthPayload(
-	val user: User,
+	val user: User?,
 	val tokens: AuthTokens
 )

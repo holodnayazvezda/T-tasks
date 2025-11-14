@@ -28,7 +28,6 @@ import java.util.Base64
 class ApiKtorClient(authorizationDataStore: AuthorizationDataStore) {
 
 	val client = HttpClient(OkHttp) {
-		expectSuccess = true
 		install(Logging) {
 			logger = Logger.ANDROID
 			level = LogLevel.ALL

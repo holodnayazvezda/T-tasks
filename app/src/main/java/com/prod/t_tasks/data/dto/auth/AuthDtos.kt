@@ -4,6 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class ErrorNetworkDTO(
+    val detail: String
+)
+
+@Serializable
 data class UserCreateRequest(
 	@SerialName("first_name")
 	val firstName: String,

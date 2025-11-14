@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.prod.t_tasks.data.dto.nav_destinations.AppDestination
 import com.prod.t_tasks.presentation.common_ui.theme.TemplateProdChebTheme
 
 @Composable
 fun TTasksApp(
-	appState: TTasksAppState = rememberTTasksAppState()
+	appState: TTasksAppState = rememberTTasksAppState(),
+	sessionDestination: AppDestination? = null
 ) {
 	TemplateProdChebTheme {
 		Scaffold(
@@ -17,7 +19,8 @@ fun TTasksApp(
 		) { padding ->
 			TTasksNavHost(
 				navController = appState.navController,
-				modifier = Modifier.padding(padding)
+				modifier = Modifier.padding(padding),
+				sessionDestination = sessionDestination
 			)
 		}
 	}
