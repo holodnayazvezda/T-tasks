@@ -189,5 +189,7 @@ dependencies {
 	// System UI controller
 	implementation(libs.accompanist.systemuicontroller)
 
+	implementation(libs.androidx.core.splashscreen)
+
 	// END -------------------------------------------------------------------------------------
 }

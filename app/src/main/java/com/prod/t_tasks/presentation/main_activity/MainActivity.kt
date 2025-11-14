@@ -7,10 +7,11 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.LaunchedEffect
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.prod.t_tasks.data.dto.nav_destinations.AppDestination
@@ -25,6 +26,9 @@ class MainActivity : ComponentActivity() {
 	private val sessionDestinationState = MutableStateFlow<AppDestination?>(null)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
+		val splashScreen = installSplashScreen()
+
+		splashScreen.setKeepOnScreenCondition { true }
 		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
 		lifecycleScope.launch {
