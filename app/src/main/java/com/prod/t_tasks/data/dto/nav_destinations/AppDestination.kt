@@ -8,5 +8,7 @@ package com.prod.t_tasks.data.dto.nav_destinations
  */
 sealed class AppDestination(val route: String) {
 	data object Splash : AppDestination("app/splash")
+	data object Login : AppDestination("app/login")
+	data object Register : AppDestination("app/register")
 	data object Dashboard : AppDestination("app/dashboard")
 }

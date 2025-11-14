@@ -52,8 +52,10 @@ class ApiKtorClient(authorizationDataStore: AuthorizationDataStore) {
 				sendWithoutRequest { request ->
 					val segments = request.url.pathSegments
 
-					val endpointsWithoutAuth = listOf<String>(
-						// pass endpoints here
+					val endpointsWithoutAuth = listOf(
+						"register",
+						"login",
+						"refresh"
 					)
 
 					endpointsWithoutAuth.any { segments.contains(it) }.not()

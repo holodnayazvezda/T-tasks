@@ -1,4 +1,4 @@
-package com.startup.suprisa.presentation.utils.base
+package com.prod.t_tasks.presentation.utils.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
