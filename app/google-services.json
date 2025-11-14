@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "368778486976",
+    "project_id": "triptaskhelper",
+    "storage_bucket": "triptaskhelper.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368778486976:android:40aa0a15c1fa17f5b37925",
+        "android_client_info": {
+          "package_name": "com.prod.team_sixteen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfs1zqX9WR1Ya3RjHUOqqVCf_XsnbwGio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

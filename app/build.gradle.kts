@@ -9,15 +9,15 @@ plugins {
 	alias(libs.plugins.serialization)
 	alias(libs.plugins.secrets.gradle.plugin)
 	alias(libs.plugins.kotlin.parcelize)
-//	alias(libs.plugins.google.services.gmc)
+	alias(libs.plugins.google.services.gmc)
 	alias(libs.plugins.firebase.crashlytics)
 }
 android {
-	namespace = "com.templates.templateprodcheb"
+	namespace = "com.prod.t_tasks"
 	compileSdk = 36
 
 	defaultConfig {
-		applicationId = "com.templates.templateprodcheb"
+		applicationId = "com.prod.t_tasks"
 		minSdk = 29
 		targetSdk = 36
 		versionCode = 1
@@ -139,25 +139,13 @@ dependencies {
 
 	// GOOGLE AND FACEBOOK SERVICES ----------------------------------------------------------------
 
-	// Firebase Authentication
-//	implementation(libs.firebase.auth)
-
-	// Google maps
-//	implementation(libs.maps.compose)
-//	implementation(libs.play.services.maps)
-//	implementation(libs.maps.compose.utils)
-//	implementation(libs.maps.compose.widgets)
-
 	// Cloud messaging
-//	implementation(libs.play.services.gcm)
+	implementation(libs.play.services.gcm)
+	implementation(libs.google.firebase.analytics)
+	implementation(libs.firebase.messaging)
 
 	// Import the BoM for the Firebase platform
-//	implementation(platform(libs.firebase.bom))
-
-	// Add the dependencies for the Crashlytics and Analytics libraries
-	// When using the BoM, you don't specify versions in Firebase library dependencies
-//	implementation(libs.firebase.crashlytics)
-//	implementation(libs.firebase.analytics)
+	implementation(platform(libs.firebase.bom))
 
 	// Guava
 	implementation(libs.guava)
@@ -199,5 +187,5 @@ dependencies {
 	// System UI controller
 	implementation(libs.accompanist.systemuicontroller)
 
-	// END -----------------------------------------------------------------------------------------
+	// END -------------------------------------------------------------------------------------
 }

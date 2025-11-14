@@ -17,9 +17,12 @@ dependencyResolutionManagement {
 		google()
 		mavenCentral()
 		maven(url = "https://jitpack.io")
+		maven(
+			url = "https://maven.google.com"
+		)
 	}
 }
 
-rootProject.name = "TemplateProdCheb"
+rootProject.name = "T-tasks"
 include(":app")
  
