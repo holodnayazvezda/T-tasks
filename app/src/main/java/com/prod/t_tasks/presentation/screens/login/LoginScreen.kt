@@ -3,7 +3,6 @@ package com.prod.t_tasks.presentation.screens.login
 import TTTextField
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -36,11 +35,10 @@ import androidx.compose.ui.unit.sp
 import com.prod.t_tasks.R
 import com.prod.t_tasks.domain.usecase.auth.AuthField
 import com.prod.t_tasks.domain.utils.NetworkError
-import com.prod.t_tasks.presentation.components.BigButton
-import com.prod.t_tasks.presentation.components.TTPasswordField
+import com.prod.t_tasks.presentation.components.standart.BigButton
+import com.prod.t_tasks.presentation.components.standart.TTPasswordField
 import com.prod.t_tasks.presentation.utils.UIState
 import org.koin.androidx.compose.koinViewModel
-import kotlin.toString
 
 @Composable
 fun LoginScreen(

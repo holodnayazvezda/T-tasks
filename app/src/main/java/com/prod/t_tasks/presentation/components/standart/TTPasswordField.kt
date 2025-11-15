@@ -1,4 +1,4 @@
-package com.prod.t_tasks.presentation.components
+package com.prod.t_tasks.presentation.components.standart
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
