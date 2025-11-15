@@ -12,86 +12,133 @@ import androidx.compose.ui.platform.LocalContext
 
 // Light color scheme
 private val LightColorScheme = lightColorScheme(
-    primary = WhitePrimary,
-    onPrimary = WhiteOnPrimary,
-    primaryContainer = WhitePrimaryContainer,
-    onPrimaryContainer = WhiteOnPrimaryContainer,
+	primary = WhitePrimary,
+	onPrimary = WhiteOnPrimary,
+	primaryContainer = WhitePrimaryContainer,
+	onPrimaryContainer = WhiteOnPrimaryContainer,
+	inversePrimary = WhiteInversePrimary,
 
-    secondary = WhiteSecondary,
-    onSecondary = WhiteOnSecondary,
-    secondaryContainer = WhiteSecondaryContainer,
-    onSecondaryContainer = WhiteOnSecondaryContainer,
+	secondary = WhiteSecondary,
+	onSecondary = WhiteOnSecondary,
+	secondaryContainer = WhiteSecondaryContainer,
+	onSecondaryContainer = WhiteOnSecondaryContainer,
 
-    tertiary = WhiteTertiary,
-    onTertiary = WhiteOnTertiary,
-    tertiaryContainer = WhiteTertiaryContainer,
-    onTertiaryContainer = WhiteOnTertiaryContainer,
+	tertiary = WhiteTertiary,
+	onTertiary = WhiteOnTertiary,
+	tertiaryContainer = WhiteTertiaryContainer,
+	onTertiaryContainer = WhiteOnTertiaryContainer,
 
-    error = WhiteError,
-    onError = WhiteOnError,
-    errorContainer = WhiteErrorContainer,
-    onErrorContainer = WhiteOnErrorContainer,
+	error = WhiteError,
+	onError = WhiteOnError,
+	errorContainer = WhiteErrorContainer,
+	onErrorContainer = WhiteOnErrorContainer,
 
-    background = WhiteBackground,
-    onBackground = WhiteOnBackground,
-    surface = WhiteSurface,
-    onSurface = WhiteOnSurface,
+	background = WhiteBackground,
+	onBackground = WhiteOnBackground,
+	surface = WhiteSurface,
+	onSurface = WhiteOnSurface,
+	surfaceVariant = WhiteSurfaceVariant,
+	onSurfaceVariant = WhiteOnSurfaceVariant,
+	inverseSurface = WhiteInverseSurface,
+	inverseOnSurface = WhiteInverseOnSurface,
 
-    surfaceVariant = WhiteSurfaceVariant,
-    onSurfaceVariant = WhiteOnSurfaceVariant,
-    outline = WhiteOutline,
-    outlineVariant = WhiteOutlineVariant,
+	outline = WhiteOutline,
+	outlineVariant = WhiteOutlineVariant,
 
-    inverseSurface = WhiteInverseSurface,
-    inverseOnSurface = WhiteInverseOnSurface,
-    inversePrimary = WhiteInversePrimary,
+	scrim = WhiteScrim,
+	surfaceTint = WhiteSurfaceTint,
 
-    surfaceTint = WhiteSurfaceTint,
+	// Fixed colors
+	primaryFixed = WhitePrimaryFixed,
+	onPrimaryFixed = WhiteOnPrimaryFixed,
+	primaryFixedDim = WhitePrimaryFixedDim,
+	onPrimaryFixedVariant = WhiteOnPrimaryFixedVariant,
+
+	secondaryFixed = WhiteSecondaryFixed,
+	onSecondaryFixed = WhiteOnSecondaryFixed,
+	secondaryFixedDim = WhiteSecondaryFixedDim,
+	onSecondaryFixedVariant = WhiteOnSecondaryFixedVariant,
+
+	tertiaryFixed = WhiteTertiaryFixed,
+	onTertiaryFixed = WhiteOnTertiaryFixed,
+	tertiaryFixedDim = WhiteTertiaryFixedDim,
+	onTertiaryFixedVariant = WhiteOnTertiaryFixedVariant,
+
+	surfaceDim = WhiteSurfaceDim,
+	surfaceBright = WhiteSurfaceBright,
+	surfaceContainerLowest = WhiteSurfaceContainerLowest,
+	surfaceContainerLow = WhiteSurfaceContainerLow,
+	surfaceContainer = WhiteSurfaceContainer,
+	surfaceContainerHigh = WhiteSurfaceContainerHigh,
+	surfaceContainerHighest = WhiteSurfaceContainerHighest
 )
 
 // Dark color scheme
 private val DarkColorScheme = darkColorScheme(
-    primary = DarkPrimary,
-    onPrimary = DarkOnPrimary,
-    primaryContainer = DarkPrimaryContainer,
-    onPrimaryContainer = DarkOnPrimaryContainer,
+	primary = DarkPrimary,
+	onPrimary = DarkOnPrimary,
+	primaryContainer = DarkPrimaryContainer,
+	onPrimaryContainer = DarkOnPrimaryContainer,
+	inversePrimary = DarkInversePrimary,
 
-    secondary = DarkSecondary,
-    onSecondary = DarkOnSecondary,
-    secondaryContainer = DarkSecondaryContainer,
-    onSecondaryContainer = DarkOnSecondaryContainer,
+	secondary = DarkSecondary,
+	onSecondary = DarkOnSecondary,
+	secondaryContainer = DarkSecondaryContainer,
+	onSecondaryContainer = DarkOnSecondaryContainer,
 
-    tertiary = DarkTertiary,
-    onTertiary = DarkOnTertiary,
-    tertiaryContainer = DarkTertiaryContainer,
-    onTertiaryContainer = DarkOnTertiaryContainer,
+	tertiary = DarkTertiary,
+	onTertiary = DarkOnTertiary,
+	tertiaryContainer = DarkTertiaryContainer,
+	onTertiaryContainer = DarkOnTertiaryContainer,
 
-    error = DarkError,
-    onError = DarkOnError,
-    errorContainer = DarkErrorContainer,
-    onErrorContainer = DarkOnErrorContainer,
+	error = DarkError,
+	onError = DarkOnError,
+	errorContainer = DarkErrorContainer,
+	onErrorContainer = DarkOnErrorContainer,
 
-    background = DarkBackground,
-    onBackground = DarkOnBackground,
-    surface = DarkSurface,
-    onSurface = DarkOnSurface,
+	background = DarkBackground,
+	onBackground = DarkOnBackground,
+	surface = DarkSurface,
+	onSurface = DarkOnSurface,
+	surfaceVariant = DarkSurfaceVariant,
+	onSurfaceVariant = DarkOnSurfaceVariant,
+	inverseSurface = DarkInverseSurface,
+	inverseOnSurface = DarkInverseOnSurface,
 
-    surfaceVariant = DarkSurfaceVariant,
-    onSurfaceVariant = DarkOnSurfaceVariant,
-    outline = DarkOutline,
-    outlineVariant = DarkOutlineVariant,
+	outline = DarkOutline,
+	outlineVariant = DarkOutlineVariant,
 
-    inverseSurface = DarkInverseSurface,
-    inverseOnSurface = DarkInverseOnSurface,
-    inversePrimary = DarkInversePrimary,
+	scrim = DarkScrim,
+	surfaceTint = DarkSurfaceTint,
 
-    surfaceTint = DarkSurfaceTint,
+	// Fixed colors
+	primaryFixed = DarkPrimaryFixed,
+	onPrimaryFixed = DarkOnPrimaryFixed,
+	primaryFixedDim = DarkPrimaryFixedDim,
+	onPrimaryFixedVariant = DarkOnPrimaryFixedVariant,
+
+	secondaryFixed = DarkSecondaryFixed,
+	onSecondaryFixed = DarkOnSecondaryFixed,
+	secondaryFixedDim = DarkSecondaryFixedDim,
+	onSecondaryFixedVariant = DarkOnSecondaryFixedVariant,
+
+	tertiaryFixed = DarkTertiaryFixed,
+	onTertiaryFixed = DarkOnTertiaryFixed,
+	tertiaryFixedDim = DarkTertiaryFixedDim,
+	onTertiaryFixedVariant = DarkOnTertiaryFixedVariant,
+
+	surfaceDim = DarkSurfaceDim,
+	surfaceBright = DarkSurfaceBright,
+	surfaceContainerLowest = DarkSurfaceContainerLowest,
+	surfaceContainerLow = DarkSurfaceContainerLow,
+	surfaceContainer = DarkSurfaceContainer,
+	surfaceContainerHigh = DarkSurfaceContainerHigh,
+	surfaceContainerHighest = DarkSurfaceContainerHighest
 )
 
 @Composable
 fun TemplateProdChebTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

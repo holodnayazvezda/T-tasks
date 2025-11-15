@@ -12,4 +12,6 @@ sealed class AppDestination(val route: String) {
 	data object Login : AppDestination("app/login")
 	data object Register : AppDestination("app/register")
 	data object Dashboard : AppDestination("app/dashboard")
+
+	data object Main : AppDestination("app/main")
 }

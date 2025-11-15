@@ -1,5 +1,6 @@
 package com.prod.t_tasks.presentation.navigation
 
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -16,31 +17,33 @@ import com.prod.t_tasks.presentation.theme.TemplateProdChebTheme
 @Composable
 fun TTasksApp(
 	appState: TTasksAppState = rememberTTasksAppState(),
+	context: Context,
 	sessionDestination: AppDestination? = null
 ) {
 	TemplateProdChebTheme {
-        val snackbarHostState = remember { SnackbarHostState() }
+		val snackbarHostState = remember { SnackbarHostState() }
 		Scaffold(
 			modifier = Modifier.fillMaxSize(),
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = snackbarHostState,
-                    snackbar = { data ->
-                        Snackbar(
-                            snackbarData = data,
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                            shape = MaterialTheme.shapes.medium
-                        )
-                    }
-                )
-            }
+			snackbarHost = {
+				SnackbarHost(
+					hostState = snackbarHostState,
+					snackbar = { data ->
+						Snackbar(
+							snackbarData = data,
+							containerColor = MaterialTheme.colorScheme.errorContainer,
+							contentColor = MaterialTheme.colorScheme.onErrorContainer,
+							shape = MaterialTheme.shapes.medium
+						)
+					}
+				)
+			}
 		) { padding ->
 			TTasksNavHost(
 				navController = appState.navController,
 				modifier = Modifier.padding(padding),
 				sessionDestination = sessionDestination,
-                snackbarHostState = snackbarHostState
+				snackbarHostState = snackbarHostState,
+				context = context
 			)
 		}
 	}
