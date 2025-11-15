@@ -18,14 +18,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.prod.t_tasks.presentation.components.mainscreen.BubbledCategoryFilters
 import com.prod.t_tasks.presentation.components.mainscreen.MainScreenFilters
 import com.prod.t_tasks.presentation.components.mainscreen.TaskCard
+import com.prod.t_tasks.presentation.components.standart.BigButton
 import com.prod.t_tasks.presentation.components.standart.TTFloatingActionButton
 import com.prod.t_tasks.presentation.components.standart.TopLogo
 import com.prod.t_tasks.presentation.theme.Paddings
+import com.prod.t_tasks.presentation.theme.Typography
 import com.prod.t_tasks.presentation.utils.ErrorCollectorScope
 import com.prod.t_tasks.presentation.utils.ui.DateRangePickerModal
 import org.koin.androidx.compose.koinViewModel
@@ -36,13 +40,14 @@ fun ErrorCollectorScope.MainScreen(
 	modifier: Modifier = Modifier,
 	viewModel: MainScreenViewModel = koinViewModel()
 ) {
-    val openCalendarModal = remember { mutableStateOf(false) }
+	val openCalendarModal = remember { mutableStateOf(false) }
+	val tasks = viewModel.taskList.collectAsLazyPagingItems()
 
 	Box(
 		modifier = modifier
 			.fillMaxSize()
 			.padding(horizontal = Paddings.large),
-        contentAlignment = Alignment.BottomCenter
+		contentAlignment = Alignment.BottomCenter
 	) {
 		Column(
 			modifier = Modifier.fillMaxSize(),
@@ -52,12 +57,32 @@ fun ErrorCollectorScope.MainScreen(
 			TopLogo()
 			Spacer(modifier = Modifier.height(Paddings.large))
 
-			val tasks = viewModel.taskList.collectAsLazyPagingItems()
 
 			if (tasks.loadState.hasError) {
-				Text("Error")
+				Text(
+					"Упс, кажется что-то пошло не так :(\nНо мы уже со всем разбираемся!",
+					style = Typography.titleMedium,
+					textAlign = TextAlign.Center,
+					fontSize = 18.sp,
+					color = MaterialTheme.colorScheme.error
+				)
 			} else if (tasks.loadState.append.endOfPaginationReached && tasks.itemCount == 0) {
-				Text("Empty")
+				Spacer(modifier = Modifier.weight(1f))
+
+				Text(
+					"Сделал дело - гуляй смело\nСамое время запланировать новую поездку",
+					style = Typography.titleMedium,
+					textAlign = TextAlign.Center,
+					fontSize = 18.sp,
+					color = MaterialTheme.colorScheme.onBackground
+				)
+				Spacer(modifier = Modifier.height(Paddings.large))
+				BigButton(buttonText = "Начать", onClick = {
+
+				}, isLoading = false)
+
+				Spacer(modifier = Modifier.weight(3f))
+
 			} else {
 				MainScreenFilters(viewModel = viewModel) {
 					openCalendarModal.value = true
@@ -98,13 +123,15 @@ fun ErrorCollectorScope.MainScreen(
 			}
 		}
 
-		TTFloatingActionButton(
-			modifier = Modifier
-				.align(Alignment.BottomCenter)
-				.padding(bottom = Paddings.medium),
-			onClick = viewModel::onAddTaskClick,
-			text = "Добавить задачу"
-		)
+		if ((tasks.loadState.append.endOfPaginationReached && tasks.itemCount == 0).not()) {
+			TTFloatingActionButton(
+				modifier = Modifier
+					.align(Alignment.BottomCenter)
+					.padding(bottom = Paddings.medium),
+				onClick = viewModel::onAddTaskClick,
+				text = "Добавить задачу"
+			)
+		}
 	}
 
 

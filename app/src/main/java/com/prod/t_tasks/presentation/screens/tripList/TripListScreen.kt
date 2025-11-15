@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prod.t_tasks.R
 import com.prod.t_tasks.presentation.commonDataModels.UITripModel
+import com.prod.t_tasks.presentation.components.standart.BigButton
 import com.prod.t_tasks.presentation.components.standart.TTFloatingActionButton
 import com.prod.t_tasks.presentation.components.standart.TopLogo
 import com.prod.t_tasks.presentation.theme.Paddings
@@ -47,39 +48,72 @@ fun ErrorCollectorScope.TripListScreen(
 		modifier = modifier
 			.padding(horizontal = Paddings.large)
 			.fillMaxSize(),
-        contentAlignment = Alignment.BottomCenter
+		contentAlignment = Alignment.BottomCenter
 	) {
+		val tasksIsNotEmpty =
+			viewModel.tripsList.value.isSuccess && viewModel.tripsList.value.getOrNull()!!
+				.isNotEmpty()
+
 		Column(
-			modifier = Modifier.fillMaxSize()
+			modifier = Modifier.fillMaxSize(),
+			horizontalAlignment = Alignment.CenterHorizontally
 		) {
 			Spacer(modifier = Modifier.height(Paddings.large))
 			TopLogo()
 			Spacer(modifier = Modifier.height(Paddings.large))
-			Text(
-				modifier = Modifier.fillMaxWidth(),
-				text = "Ваши поездки",
-				style = Typography.titleLarge,
-				textAlign = TextAlign.Center,
-				fontSize = 32.sp,
-				color = MaterialTheme.colorScheme.onBackground
-			)
-			Spacer(modifier = Modifier.height(Paddings.large))
+
+			if (tasksIsNotEmpty) {
+				Text(
+					modifier = Modifier.fillMaxWidth(),
+					text = "Ваши поездки",
+					style = Typography.titleLarge,
+					textAlign = TextAlign.Center,
+					fontSize = 32.sp,
+					color = MaterialTheme.colorScheme.onBackground
+				)
+				Spacer(modifier = Modifier.height(Paddings.large))
+			}
 			viewModel.tripsList.FoldUIStateWithGlobalCallbacks {
-				LazyColumn(verticalArrangement = Arrangement.spacedBy(Paddings.small)) {
-					items(it) { trip ->
-						TripCard(tripInfo = trip) { }
+				if (it.isEmpty()) {
+					Spacer(modifier = Modifier.weight(1f))
+
+					Text(
+						"Ничего не нашлось :(\nСамое время запланировать новую поездку",
+						style = Typography.titleMedium,
+						textAlign = TextAlign.Center,
+						fontSize = 18.sp,
+						color = MaterialTheme.colorScheme.onBackground
+					)
+
+					Spacer(modifier = Modifier.height(Paddings.large))
+
+					BigButton(
+						buttonText = "Начать",
+						onClick = navigateToCreateTrip,
+						isLoading = false
+					)
+
+					Spacer(modifier = Modifier.weight(3f))
+
+				} else {
+					LazyColumn(verticalArrangement = Arrangement.spacedBy(Paddings.small)) {
+						items(it) { trip ->
+							TripCard(tripInfo = trip) { }
+						}
 					}
 				}
 			}
 		}
 
-		TTFloatingActionButton(
-			modifier = Modifier
-				.align(Alignment.BottomCenter)
-				.padding(bottom = Paddings.medium),
-			onClick = navigateToCreateTrip,
-			text = "Добавить поездку"
-		)
+		if (tasksIsNotEmpty) {
+			TTFloatingActionButton(
+				modifier = Modifier
+					.align(Alignment.BottomCenter)
+					.padding(bottom = Paddings.medium),
+				onClick = navigateToCreateTrip,
+				text = "Добавить поездку"
+			)
+		}
 	}
 }
 
@@ -94,9 +128,11 @@ fun TripCard(modifier: Modifier = Modifier, tripInfo: UITripModel, onClick: () -
 		shape = Shapes.smallRoundedBox,
 		onClick = {}
 	) {
-		Row(modifier = Modifier
-			.height(IntrinsicSize.Min)
-			.padding(Paddings.medium)) {
+		Row(
+			modifier = Modifier
+				.height(IntrinsicSize.Min)
+				.padding(Paddings.medium)
+		) {
 			Column(modifier = Modifier.weight(1f)) {
 				Text(
 					text = tripInfo.placeName,
