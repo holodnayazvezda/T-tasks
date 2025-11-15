@@ -12,8 +12,10 @@ import com.prod.t_tasks.domain.utils.NetworkError
 import com.prod.t_tasks.presentation.screens.DashboardScreen
 import com.prod.t_tasks.presentation.screens.login.LoginScreen
 import com.prod.t_tasks.presentation.screens.main.MainScreen
+import com.prod.t_tasks.presentation.screens.profile.ProfileScreen
 import com.prod.t_tasks.presentation.screens.register.RegisterScreen
 import com.prod.t_tasks.presentation.screens.register.RegisterViewModel
+import com.prod.t_tasks.presentation.screens.tripList.TripListScreen
 import com.prod.t_tasks.presentation.utils.ErrorCallbacks
 import com.prod.t_tasks.presentation.utils.ErrorCollectorScope
 import org.koin.compose.viewmodel.koinViewModel
@@ -57,6 +59,7 @@ fun TTasksNavHost(
 					}
 				)
 			}
+
 			composable(AppDestination.Register.route) {
 				RegisterScreen(
 					snackbarHostState = snackbarHostState,
@@ -71,12 +74,23 @@ fun TTasksNavHost(
 					viewModel = registerViewModel
 				)
 			}
+
 			composable(AppDestination.Main.route) {
 				MainScreen()
 			}
+
+			composable(AppDestination.TripList.route) {
+				TripListScreen()
+			}
+
+			composable(AppDestination.Profile.route) {
+				ProfileScreen()
+			}
+
 			composable(AppDestination.Dashboard.route) {
 				DashboardScreen()
 			}
 		}
+
 	}
 }

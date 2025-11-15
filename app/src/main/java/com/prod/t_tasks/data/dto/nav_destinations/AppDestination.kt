@@ -14,4 +14,9 @@ sealed class AppDestination(val route: String) {
 	data object Dashboard : AppDestination("app/dashboard")
 
 	data object Main : AppDestination("app/main")
+
+	data object TripList: AppDestination("app/tripList")
+
+	data object Profile: AppDestination("app/profile")
+
 }
