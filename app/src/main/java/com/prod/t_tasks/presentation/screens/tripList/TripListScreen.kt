@@ -46,7 +46,6 @@ fun ErrorCollectorScope.TripListScreen(
 	Box(
 		modifier = modifier
 			.padding(horizontal = Paddings.large)
-            .padding(bottom = 5.dp)
 			.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
 	) {
@@ -76,7 +75,8 @@ fun ErrorCollectorScope.TripListScreen(
 
 		TTFloatingActionButton(
 			modifier = Modifier
-				.align(Alignment.BottomCenter),
+				.align(Alignment.BottomCenter)
+				.padding(bottom = Paddings.medium),
 			onClick = navigateToCreateTrip,
 			text = "Добавить поездку"
 		)

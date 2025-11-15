@@ -27,13 +27,14 @@ fun TTFloatingActionButton(
     val typography = MaterialTheme.typography
 
     ExtendedFloatingActionButton(
+	    modifier = modifier,
         onClick = {
             onClick()
         },
         shape = RoundedCornerShape(10.dp),
         containerColor = colorScheme.tertiaryContainer,
         contentColor = colorScheme.onTertiaryContainer,
-        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp)
+        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 5.dp)
     ) {
         Row {
             Text(
@@ -41,11 +42,11 @@ fun TTFloatingActionButton(
                 style = typography.titleMedium,
                 fontSize = 16.sp
             )
-            Spacer(modifier.width(10.dp))
+            Spacer(Modifier.width(10.dp))
             Icon(
                 painter = painterResource(R.drawable.add_square_outline),
                 contentDescription = null,
-                modifier = modifier.size(22.dp)
+                modifier = Modifier.size(22.dp)
             )
         }
     }

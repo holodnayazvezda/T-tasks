@@ -41,8 +41,7 @@ fun ErrorCollectorScope.MainScreen(
 	Box(
 		modifier = modifier
 			.fillMaxSize()
-			.padding(horizontal = Paddings.large)
-            .padding(bottom = 5.dp),
+			.padding(horizontal = Paddings.large),
         contentAlignment = Alignment.BottomCenter
 	) {
 		Column(
@@ -101,7 +100,8 @@ fun ErrorCollectorScope.MainScreen(
 
 		TTFloatingActionButton(
 			modifier = Modifier
-				.align(Alignment.BottomCenter),
+				.align(Alignment.BottomCenter)
+				.padding(bottom = Paddings.medium),
 			onClick = viewModel::onAddTaskClick,
 			text = "Добавить задачу"
 		)
