@@ -8,9 +8,9 @@ import kotlinx.serialization.Serializable
 data class UserDto(
 	val id: Long,
 	val first_name: String,
-	val second_name: String,
+	val second_name: String?,
 	val email: String,
-	val avatar_file_key: String
+	val avatar_file_key: String?
 ) {
 	fun mapToUser(): User = User(
 		id = id,

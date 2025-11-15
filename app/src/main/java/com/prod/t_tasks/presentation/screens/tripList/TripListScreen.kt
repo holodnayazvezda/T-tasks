@@ -40,6 +40,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ErrorCollectorScope.TripListScreen(
 	modifier: Modifier = Modifier,
+	navigateToCreateTrip: () -> Unit,
 	viewModel: TripListScreenViewModel = koinViewModel()
 ) {
 	Box(
@@ -76,7 +77,7 @@ fun ErrorCollectorScope.TripListScreen(
 		TTFloatingActionButton(
 			modifier = Modifier
 				.align(Alignment.BottomCenter),
-			onClick = viewModel::onAddTripClick,
+			onClick = navigateToCreateTrip,
 			text = "Добавить поездку"
 		)
 	}

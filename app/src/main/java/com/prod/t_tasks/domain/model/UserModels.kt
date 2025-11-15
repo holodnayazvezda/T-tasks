@@ -3,7 +3,7 @@ package com.prod.t_tasks.domain.model
 data class User(
 	val id: Long,
 	val firstName: String,
-	val secondName: String,
+	val secondName: String?,
 	val email: String,
 	val avatarFileKey: String?
 )

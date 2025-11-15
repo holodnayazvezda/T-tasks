@@ -1,5 +1,6 @@
 package com.prod.t_tasks.data.repositories
 
+import android.util.Log
 import com.prod.t_tasks.data.base.BaseRepository
 import com.prod.t_tasks.data.data_providers.api.ApiKtorClient
 import com.prod.t_tasks.data.dto.users.UserDto
@@ -26,6 +27,8 @@ class UsersRepositoryImpl(
 				parameters.append("email_search_string", email)
 			}
 			contentType(ContentType.Application.Json)
+		}.also {
+			Log.d("UsersRepositoryImpl", it.toString())
 		}.map { response ->
 			response.map { it.mapToUser() }
 		}

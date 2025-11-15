@@ -48,10 +48,6 @@ class TripListScreenViewModel: BaseViewModel() {
 		loadTripsList()
 	}
 
-	fun onAddTripClick() {
-		// TODO: navigate to trip creation
-	}
-
 	init {
 		update()
 	}

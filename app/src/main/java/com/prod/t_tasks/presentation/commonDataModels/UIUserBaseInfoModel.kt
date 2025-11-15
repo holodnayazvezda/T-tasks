@@ -12,7 +12,7 @@ data class UIUserBaseInfoModel(
 
 fun User.mapToUI(): UIUserBaseInfoModel = UIUserBaseInfoModel(
 	id = id,
-	name = "$firstName $secondName",
+	name = "$firstName ${secondName ?: ""}",
 	email = email,
 	imageURL = null
 )

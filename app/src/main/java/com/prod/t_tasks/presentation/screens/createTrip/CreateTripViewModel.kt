@@ -1,5 +1,6 @@
 package com.prod.t_tasks.presentation.screens.createTrip
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.prod.t_tasks.domain.usecase.trips.GetUsersByEmailUseCase
@@ -11,6 +12,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -34,7 +36,44 @@ data class TripCreateFormState(
 	val countMediumChildren: Int = 0,
 	val countBigChildren: Int = 0,
 	val pets: Boolean = false,
-	val members: List<Pair<Long, String>> = emptyList()
+	val members: List<Pair<Long, String>> = listOf(
+		Pair(
+			0L,
+			"Владимир"
+		),
+		Pair(
+			0L,
+			"Мария"
+		),
+		Pair(
+			0L,
+			"Петр"
+		),
+		Pair(
+			0L,
+			"Владимир"
+		),
+		Pair(
+			0L,
+			"Мария"
+		),
+		Pair(
+			0L,
+			"Петр"
+		),
+		Pair(
+			0L,
+			"Владимир"
+		),
+		Pair(
+			0L,
+			"Мария"
+		),
+		Pair(
+			0L,
+			"Петр"
+		)
+	)
 )
 
 @KoinViewModel
@@ -173,15 +212,20 @@ class CreateTripViewModel(
 		}
 	}
 
-	fun addMember(info: Pair<Long, String>) {
+	fun addMember(info: UIUserBaseInfoModel) {
 		_formState.update {
 			it.copy(
-				members = it.members + listOf(info)
+				members = it.members + listOf(Pair(info.id, info.name))
 			)
+		}
+		viewModelScope.launch {
+			searchEmail.emit("")
 		}
 	}
 
 	private val searchEmail = MutableStateFlow("")
+
+	val currentEmailValue = searchEmail.asStateFlow()
 
 	val usersLoadingState = mutableStateOf(false)
 
@@ -196,6 +240,7 @@ class CreateTripViewModel(
 						it
 					},
 					onFailure = {
+						Log.e("CreateTripViewModel", it.message, it)
 						emptyList()
 					}
 				).map { it.mapToUI() }

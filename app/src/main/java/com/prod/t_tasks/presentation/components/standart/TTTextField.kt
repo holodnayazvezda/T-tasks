@@ -1,15 +1,17 @@
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -20,11 +22,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.prod.t_tasks.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -35,21 +40,15 @@ fun TTTextField(
 	label: String,
 	error: String? = null,
 	singleLine: Boolean = true,
+	maxLines: Int = 1,
 	keyboardOptions: KeyboardOptions = KeyboardOptions(
 		keyboardType = KeyboardType.Text,
 		imeAction = ImeAction.Next
 	),
-	trailingIcon: @Composable () -> Unit = {},
-	// Новые параметры для выпадающего списка
-	isDropdown: Boolean = false,
-	dropdownItems: List<String> = emptyList(),
-	onItemSelected: (String) -> Unit = {}
+	trailingIcon: @Composable () -> Unit = {}
 ) {
 	val typography = MaterialTheme.typography
 	val colorScheme = MaterialTheme.colorScheme
-
-	// Состояние для раскрытия/закрытия меню
-	var expanded by remember { mutableStateOf(false) }
 
 	Box(
 		Modifier.height(70.dp),
@@ -64,93 +63,119 @@ fun TTTextField(
 					shape = RoundedCornerShape(15.dp)
 				)
 		)
-
-		if (isDropdown) {
-			// Режим выпадающего списка
-			ExposedDropdownMenuBox(
-				expanded = expanded,
-				onExpandedChange = { expanded = !expanded },
-			) {
-				OutlinedTextField(
-					modifier = Modifier
-						.fillMaxWidth()
-						.offset(y = 5.dp)
-						.menuAnchor(),
-					value = value,
-					onValueChange = onValueChange,
-					textStyle = typography.labelLarge,
-					placeholder = {
-						Text(
-							label,
-							style = typography.labelLarge,
-							fontSize = 14.sp,
-						)
-					},
-					isError = error != null,
-					supportingText = {
-						if (error != null) {
-							Spacer(Modifier.height(5.dp))
-							Text(
-								text = error,
-								style = typography.labelLarge,
-								fontSize = 12.sp
-							)
-						}
-					},
-					keyboardOptions = keyboardOptions,
-					singleLine = singleLine,
-					colors = OutlinedTextFieldDefaults.colors(
-						focusedContainerColor = colorScheme.primary,
-						unfocusedContainerColor = colorScheme.primary,
-						errorContainerColor = colorScheme.error,
-
-						focusedBorderColor = Color.Transparent,
-						unfocusedBorderColor = Color.Transparent,
-						errorBorderColor = Color.Transparent,
-
-						focusedPlaceholderColor = colorScheme.onPrimary,
-						unfocusedPlaceholderColor = colorScheme.onPrimary,
-						errorPlaceholderColor = colorScheme.onError,
-
-						focusedTextColor = colorScheme.onPrimary,
-						unfocusedTextColor = colorScheme.onPrimary,
-						errorTextColor = colorScheme.onError,
-
-						cursorColor = colorScheme.onPrimary,
-						errorCursorColor = colorScheme.onError
-					),
-					shape = RoundedCornerShape(15.dp),
-					readOnly = true, // Для dropdown поле только для чтения
-					trailingIcon = {
-						if (trailingIcon != null) {
-							trailingIcon()
-						} else {
-							ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-						}
-					}
+		OutlinedTextField(
+			modifier = Modifier
+				.fillMaxWidth()
+				.offset(y = 5.dp),
+			value = value,
+			readOnly = readOnly,
+			onValueChange = onValueChange,
+			textStyle = typography.labelLarge,
+			placeholder = {
+				Text(
+					label,
+					style = typography.labelLarge,
+					fontSize = 14.sp,
 				)
-
-				ExposedDropdownMenuBox (
-					expanded = expanded,
-					onExpandedChange = { expanded = it},
-				) {
-					dropdownItems.forEach { item ->
-						DropdownMenuItem(
-							text = { Text(text = item) },
-							onClick = {
-								onItemSelected(item)
-								expanded = false
-							}
-						)
-					}
+			},
+			isError = error != null,
+			supportingText = {
+				if (error != null) {
+					Spacer(Modifier.height(5.dp))
+					Text(
+						text = error,
+						style = typography.labelLarge,
+						fontSize = 12.sp
+					)
 				}
-			}
-		} else {
-			// Обычный режим текстового поля
+			},
+			keyboardOptions = keyboardOptions,
+			singleLine = singleLine,
+			maxLines = maxLines,
+			colors = OutlinedTextFieldDefaults.colors(
+				focusedContainerColor = colorScheme.primary,
+				unfocusedContainerColor = colorScheme.primary,
+				errorContainerColor = colorScheme.error,
+
+				focusedBorderColor = Color.Transparent,
+				unfocusedBorderColor = Color.Transparent,
+				errorBorderColor = Color.Transparent,
+
+				focusedPlaceholderColor = colorScheme.onPrimary,
+				unfocusedPlaceholderColor = colorScheme.onPrimary,
+				errorPlaceholderColor = colorScheme.onError,
+
+				focusedTextColor = colorScheme.onPrimary,
+				unfocusedTextColor = colorScheme.onPrimary,
+				errorTextColor = colorScheme.onError,
+
+				cursorColor = colorScheme.onPrimary,
+				errorCursorColor = colorScheme.onError
+			),
+			shape = RoundedCornerShape(15.dp),
+			trailingIcon = trailingIcon
+		)
+	}
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> TTTextFieldWithDropdown(
+	modifier: Modifier = Modifier,
+	value: String,
+	onValueChange: (String) -> Unit = {},
+	readOnly: Boolean = true,
+	label: String,
+	error: String? = null,
+	singleLine: Boolean = true,
+	maxLines: Int = 1,
+	keyboardOptions: KeyboardOptions = KeyboardOptions(
+		keyboardType = KeyboardType.Text,
+		imeAction = ImeAction.Next
+	),
+	dropdownItems: List<T> = emptyList(),
+	onDropdownItemSelected: (T) -> Unit = {},
+	dropDownItem: @Composable (T) -> Unit,
+	trailingIcon: @Composable (Boolean) -> Unit = {
+		Icon(
+			modifier = Modifier
+				.size(24.dp)
+				.rotate(animateFloatAsState(if (it) 180f else 0f).value),
+			painter = painterResource(R.drawable.ic_arr_dropdown),
+			tint = MaterialTheme.colorScheme.onPrimary,
+			contentDescription = null
+		)
+	}
+) {
+	val typography = MaterialTheme.typography
+	val colorScheme = MaterialTheme.colorScheme
+
+	var expanded by remember { mutableStateOf(false) }
+
+	Box(
+		modifier.height(70.dp),
+	) {
+		Box(
+			Modifier
+				.fillMaxWidth()
+				.height(56.dp)
+				.offset(x = 5.dp)
+				.background(
+					color = Color.White,
+					shape = RoundedCornerShape(15.dp)
+				)
+		)
+
+		ExposedDropdownMenuBox(
+			expanded = expanded,
+			onExpandedChange = { expanded = !expanded },
+			modifier = Modifier.offset(y = 5.dp)
+		) {
 			OutlinedTextField(
 				modifier = Modifier
 					.fillMaxWidth()
-					.offset(y = 5.dp),
+					.menuAnchor(),
 				value = value,
 				readOnly = readOnly,
 				onValueChange = onValueChange,
@@ -175,6 +200,7 @@ fun TTTextField(
 				},
 				keyboardOptions = keyboardOptions,
 				singleLine = singleLine,
+				maxLines = maxLines,
 				colors = OutlinedTextFieldDefaults.colors(
 					focusedContainerColor = colorScheme.primary,
 					unfocusedContainerColor = colorScheme.primary,
@@ -196,8 +222,28 @@ fun TTTextField(
 					errorCursorColor = colorScheme.onError
 				),
 				shape = RoundedCornerShape(15.dp),
-				trailingIcon = trailingIcon
+				trailingIcon = {
+					trailingIcon(expanded)
+				}
 			)
+
+			ExposedDropdownMenu(
+				expanded = expanded,
+				onDismissRequest = { expanded = false },
+				modifier = Modifier.exposedDropdownSize()
+			) {
+				dropdownItems.forEach { item ->
+					DropdownMenuItem(
+						text = {
+							dropDownItem(item)
+						},
+						onClick = {
+							onDropdownItemSelected(item)
+							expanded = false
+						}
+					)
+				}
+			}
 		}
 	}
 }

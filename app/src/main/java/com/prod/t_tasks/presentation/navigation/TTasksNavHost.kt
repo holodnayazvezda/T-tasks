@@ -1,6 +1,7 @@
 package com.prod.t_tasks.presentation.navigation
 
 import android.content.Context
+import androidx.appcompat.R
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -81,7 +82,9 @@ fun TTasksNavHost(
 			}
 
 			composable(AppDestination.TripList.route) {
-				TripListScreen()
+				TripListScreen(navigateToCreateTrip = {
+					navController.navigate(AppDestination.CreateTrip.route)
+				})
 			}
 
 			composable(AppDestination.Profile.route) {
@@ -92,7 +95,7 @@ fun TTasksNavHost(
 				DashboardScreen()
 			}
 
-			composable (AppDestination.CreateTrip.route){
+			composable(AppDestination.CreateTrip.route) {
 				CreateTripScreen()
 			}
 		}
