@@ -166,6 +166,41 @@ fun Filters(
 	openCalendarModel: () -> Unit
 ) {
 	Column {
+
+		Row(
+			modifier = Modifier
+				.fillMaxWidth()
+				.background(
+					MaterialTheme.colorScheme.surfaceVariant,
+					shape = Shapes.verySmallRoundedBox
+				)
+				.clip(Shapes.verySmallRoundedBox)
+				.clickable(
+					rippleColor = MaterialTheme.colorScheme.primary,
+					onClick = openCalendarModel
+				)
+				.padding(Paddings.small),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.spacedBy(
+				Paddings.small,
+				Alignment.CenterHorizontally
+			)
+		) {
+			Text(
+				text = viewModel.dateString.value,
+				style = Typography.labelLarge,
+				fontSize = 16.sp,
+				color = MaterialTheme.colorScheme.onSurfaceVariant
+			)
+
+			Icon(
+				modifier = Modifier.size(18.dp),
+				painter = painterResource(R.drawable.ic_calendar),
+				tint = MaterialTheme.colorScheme.onSurfaceVariant,
+				contentDescription = "calendar"
+			)
+		}
+		Spacer(modifier = Modifier.height(Paddings.small))
 		Row(
 			modifier
 				.fillMaxWidth()
@@ -185,30 +220,12 @@ fun Filters(
 					shape = Shapes.verySmallRoundedBox
 				)
 				.clip(Shapes.verySmallRoundedBox)
-				.clickable(rippleColor = MaterialTheme.colorScheme.primary, onClick = onClick)
+				.clickable(
+					rippleColor = MaterialTheme.colorScheme.primary,
+					onClick = onClick
+				)
 				.padding(Paddings.small)
-			Row(
-				modifier = clickableFilterCardModifier(openCalendarModel),
-				verticalAlignment = Alignment.CenterVertically,
-				horizontalArrangement = Arrangement.spacedBy(
-					Paddings.small,
-					Alignment.CenterHorizontally
-				)
-			) {
-				Text(
-					text = viewModel.dateString.value,
-					style = Typography.labelLarge,
-					fontSize = 16.sp,
-					color = MaterialTheme.colorScheme.onSurfaceVariant
-				)
 
-				Icon(
-					modifier = Modifier.size(18.dp),
-					painter = painterResource(R.drawable.ic_calendar),
-					tint = MaterialTheme.colorScheme.onSurfaceVariant,
-					contentDescription = "calendar"
-				)
-			}
 
 			Row(
 				modifier = clickableFilterCardModifier {
@@ -233,29 +250,7 @@ fun Filters(
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
 			}
-		}
-		Spacer(modifier = Modifier.height(Paddings.small))
-		Row(
-			modifier
-				.fillMaxWidth()
-				.height(IntrinsicSize.Min),
-			verticalAlignment = Alignment.CenterVertically,
-			horizontalArrangement = Arrangement.spacedBy(
-				Paddings.small,
-				Alignment.CenterHorizontally
-			)
-		) {
-			@Composable
-			fun clickableFilterCardModifier(onClick: () -> Unit) = Modifier
-				.weight(1f)
-				.fillMaxHeight()
-				.background(
-					MaterialTheme.colorScheme.surfaceVariant,
-					shape = Shapes.verySmallRoundedBox
-				)
-				.clip(Shapes.verySmallRoundedBox)
-				.clickable(rippleColor = MaterialTheme.colorScheme.primary, onClick = onClick)
-				.padding(Paddings.small)
+
 			Row(
 				modifier = clickableFilterCardModifier {
 					viewModel.showFinished.value = viewModel.showFinished.value.not()
@@ -279,8 +274,6 @@ fun Filters(
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
 			}
-
-			Spacer(modifier = Modifier.weight(1f))
 		}
 	}
 }
@@ -429,7 +422,7 @@ fun TCheckBox(modifier: Modifier = Modifier, checked: Boolean, color: Color) {
 			.border(width = 1.dp, color = color, shape = Shapes.verySmallRoundedBox)
 	) {
 		AnimatedContent(checked) {
-			if (checked) {
+			if (it) {
 				Icon(
 					modifier = Modifier
 						.fillMaxSize()
