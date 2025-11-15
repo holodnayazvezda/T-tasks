@@ -1,7 +1,7 @@
 package com.prod.t_tasks.presentation.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,7 +17,8 @@ import org.koin.androidx.compose.koinViewModel
 fun TTasksNavHost(
 	navController: NavHostController,
 	modifier: Modifier = Modifier,
-	sessionDestination: AppDestination? = null
+	sessionDestination: AppDestination? = null,
+	snackbarHostState: SnackbarHostState
 ) {
     val startDestination = sessionDestination?.route ?: AppDestination.Login.route
     val registerViewModel: RegisterViewModel = koinViewModel()
@@ -29,6 +30,7 @@ fun TTasksNavHost(
 	) {
 		composable(AppDestination.Login.route) {
 			LoginScreen(
+                snackbarHostState = snackbarHostState,
 				onRegisterClick = {
 					navController.navigate(AppDestination.Register.route)
 				},
@@ -41,6 +43,7 @@ fun TTasksNavHost(
 		}
 		composable(AppDestination.Register.route) {
 			RegisterScreen(
+                snackbarHostState = snackbarHostState,
 				onLoginClick = {
 					navController.popBackStack()
 				},
