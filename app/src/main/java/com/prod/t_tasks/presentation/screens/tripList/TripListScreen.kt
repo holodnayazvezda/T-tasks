@@ -42,14 +42,14 @@ fun ErrorCollectorScope.TripListScreen(
 ) {
 	Column(
 		modifier = modifier
-			.padding(horizontal = Paddings.medium)
+			.padding(horizontal = Paddings.large)
 			.fillMaxSize()
 	) {
-		Spacer(modifier = Modifier.height(Paddings.medium))
+		Spacer(modifier = Modifier.height(Paddings.large))
 
 		TopLogo()
 
-		Spacer(modifier = Modifier.height(Paddings.medium))
+		Spacer(modifier = Modifier.height(Paddings.large))
 
 		Text(
 			modifier = Modifier.fillMaxWidth(),
@@ -60,7 +60,7 @@ fun ErrorCollectorScope.TripListScreen(
 			color = MaterialTheme.colorScheme.onBackground
 		)
 
-		Spacer(modifier = Modifier.height(Paddings.medium))
+		Spacer(modifier = Modifier.height(Paddings.large))
 
 		viewModel.tripsList.FoldUIStateWithGlobalCallbacks {
 			LazyColumn(verticalArrangement = Arrangement.spacedBy(Paddings.small)) {
@@ -87,7 +87,7 @@ fun TripCard(modifier: Modifier = Modifier, tripInfo: UITripModel, onClick: () -
 	) {
 		Row(modifier = Modifier
 			.height(IntrinsicSize.Min)
-			.padding(Paddings.small * 1.5f)) {
+			.padding(Paddings.medium)) {
 			Column(modifier = Modifier.weight(1f)) {
 				Text(
 					text = tripInfo.placeName,

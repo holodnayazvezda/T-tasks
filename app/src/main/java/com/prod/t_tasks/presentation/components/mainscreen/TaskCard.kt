@@ -50,7 +50,7 @@ fun TaskCard(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    Paddings.small
+                    Paddings.medium
                 ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween

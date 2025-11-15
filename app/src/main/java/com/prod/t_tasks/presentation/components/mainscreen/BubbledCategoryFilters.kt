@@ -31,7 +31,7 @@ fun BubbledCategoryFilters(
         )
     ) {
         item {
-            Spacer(modifier = Modifier.width(Paddings.medium - Paddings.small))
+            Spacer(modifier = Modifier.width(Paddings.large - Paddings.small))
         }
 
         items(categories) { category ->
@@ -44,7 +44,7 @@ fun BubbledCategoryFilters(
         }
 
         item {
-            Spacer(modifier = Modifier.width(Paddings.medium - Paddings.small))
+            Spacer(modifier = Modifier.width(Paddings.large - Paddings.small))
         }
     }
 }
