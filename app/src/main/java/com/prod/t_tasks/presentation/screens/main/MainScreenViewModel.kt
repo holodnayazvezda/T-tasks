@@ -145,6 +145,9 @@ class MainScreenViewModel(
 		}
 	}
 
+	fun onAddTaskClick() {
+		// TODO: handle navigation to create task screen
+	}
 
 	fun update() {
 		loadTopicList()

@@ -3,6 +3,7 @@ package com.prod.t_tasks.presentation.screens.main
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,10 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.prod.t_tasks.presentation.components.mainscreen.BubbledCategoryFilters
 import com.prod.t_tasks.presentation.components.mainscreen.MainScreenFilters
 import com.prod.t_tasks.presentation.components.mainscreen.TaskCard
+import com.prod.t_tasks.presentation.components.standart.TTFloatingActionButton
 import com.prod.t_tasks.presentation.components.standart.TopLogo
 import com.prod.t_tasks.presentation.theme.Paddings
 import com.prod.t_tasks.presentation.utils.ErrorCollectorScope
@@ -35,62 +38,73 @@ fun ErrorCollectorScope.MainScreen(
 ) {
     val openCalendarModal = remember { mutableStateOf(false) }
 
-	Column(
+	Box(
 		modifier = modifier
+			.fillMaxSize()
 			.padding(horizontal = Paddings.large)
-			.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(bottom = 5.dp),
+        contentAlignment = Alignment.BottomCenter
 	) {
-		Spacer(modifier = Modifier.height(Paddings.large))
-
-		TopLogo()
-
-		Spacer(modifier = Modifier.height(Paddings.large))
-
-		val tasks = viewModel.taskList.collectAsLazyPagingItems()
-
-		if (tasks.loadState.hasError) {
-			Text("Error")
-		} else if (tasks.loadState.append.endOfPaginationReached && tasks.itemCount == 0) {
-			Text("Empty")
-		} else {
-            MainScreenFilters(viewModel = viewModel) {
-				openCalendarModal.value = true
-			}
+		Column(
+			modifier = Modifier.fillMaxSize(),
+			horizontalAlignment = Alignment.CenterHorizontally
+		) {
 			Spacer(modifier = Modifier.height(Paddings.large))
-			viewModel.topicList.FoldUIStateWithGlobalCallbacks { topics ->
-				BubbledCategoryFilters(
-					categories = topics,
-					selectedList = viewModel.selectedTopicIds.toList()
-				) { categoryId ->
-					viewModel.selectTopic(categoryId)
+			TopLogo()
+			Spacer(modifier = Modifier.height(Paddings.large))
+
+			val tasks = viewModel.taskList.collectAsLazyPagingItems()
+
+			if (tasks.loadState.hasError) {
+				Text("Error")
+			} else if (tasks.loadState.append.endOfPaginationReached && tasks.itemCount == 0) {
+				Text("Empty")
+			} else {
+				MainScreenFilters(viewModel = viewModel) {
+					openCalendarModal.value = true
 				}
-			}
-			Spacer(modifier = Modifier.height(Paddings.large))
-			LazyColumn(
-				verticalArrangement = Arrangement.spacedBy(Paddings.small),
-				horizontalAlignment = Alignment.CenterHorizontally
-			) {
-				items(tasks.itemCount) { it ->
-					val task = tasks[it]
-					task?.let {
-						TaskCard(
-							taskInfo = it,
-							isArchiveWaiting = it.id in viewModel.archiveWaitingTasksIds.value
-						) {
-							viewModel.toggleTaskAsDone(id = it.id)
-							tasks.refresh()
-						}
+				Spacer(modifier = Modifier.height(Paddings.large))
+				viewModel.topicList.FoldUIStateWithGlobalCallbacks { topics ->
+					BubbledCategoryFilters(
+						categories = topics,
+						selectedList = viewModel.selectedTopicIds.toList()
+					) { categoryId ->
+						viewModel.selectTopic(categoryId)
 					}
 				}
+				Spacer(modifier = Modifier.height(Paddings.large))
+				LazyColumn(
+					verticalArrangement = Arrangement.spacedBy(Paddings.small),
+					horizontalAlignment = Alignment.CenterHorizontally
+				) {
+					items(tasks.itemCount) { it ->
+						val task = tasks[it]
+						task?.let {
+							TaskCard(
+								taskInfo = it,
+								isArchiveWaiting = it.id in viewModel.archiveWaitingTasksIds.value
+							) {
+								viewModel.toggleTaskAsDone(id = it.id)
+								tasks.refresh()
+							}
+						}
+					}
 
-				item {
-					if (!tasks.loadState.append.endOfPaginationReached) {
-						CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+					item {
+						if (!tasks.loadState.append.endOfPaginationReached) {
+							CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+						}
 					}
 				}
 			}
 		}
+
+		TTFloatingActionButton(
+			modifier = Modifier
+				.align(Alignment.BottomCenter),
+			onClick = viewModel::onAddTaskClick,
+			text = "Добавить задачу"
+		)
 	}
 
 

@@ -32,7 +32,7 @@ fun TopLogo(modifier: Modifier = Modifier) {
             contentDescription = "App logo"
         )
 
-        Spacer(modifier = Modifier.width(Paddings.large))
+        Spacer(modifier = Modifier.width(Paddings.medium))
         Text(
             text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.titleLarge,

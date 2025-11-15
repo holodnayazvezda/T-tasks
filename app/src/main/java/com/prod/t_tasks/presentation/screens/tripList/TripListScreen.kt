@@ -1,6 +1,7 @@
 package com.prod.t_tasks.presentation.screens.tripList
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prod.t_tasks.R
 import com.prod.t_tasks.presentation.commonDataModels.UITripModel
+import com.prod.t_tasks.presentation.components.standart.TTFloatingActionButton
 import com.prod.t_tasks.presentation.components.standart.TopLogo
 import com.prod.t_tasks.presentation.theme.Paddings
 import com.prod.t_tasks.presentation.theme.Shapes
@@ -40,37 +42,43 @@ fun ErrorCollectorScope.TripListScreen(
 	modifier: Modifier = Modifier,
 	viewModel: TripListScreenViewModel = koinViewModel()
 ) {
-	Column(
+	Box(
 		modifier = modifier
 			.padding(horizontal = Paddings.large)
-			.fillMaxSize()
+            .padding(bottom = 5.dp)
+			.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
 	) {
-		Spacer(modifier = Modifier.height(Paddings.large))
-
-		TopLogo()
-
-		Spacer(modifier = Modifier.height(Paddings.large))
-
-		Text(
-			modifier = Modifier.fillMaxWidth(),
-			text = "Ваши поездки",
-			style = Typography.titleLarge,
-			textAlign = TextAlign.Center,
-			fontSize = 32.sp,
-			color = MaterialTheme.colorScheme.onBackground
-		)
-
-		Spacer(modifier = Modifier.height(Paddings.large))
-
-		viewModel.tripsList.FoldUIStateWithGlobalCallbacks {
-			LazyColumn(verticalArrangement = Arrangement.spacedBy(Paddings.small)) {
-				items(it) {
-					TripCard(tripInfo = it) {
-
+		Column(
+			modifier = Modifier.fillMaxSize()
+		) {
+			Spacer(modifier = Modifier.height(Paddings.large))
+			TopLogo()
+			Spacer(modifier = Modifier.height(Paddings.large))
+			Text(
+				modifier = Modifier.fillMaxWidth(),
+				text = "Ваши поездки",
+				style = Typography.titleLarge,
+				textAlign = TextAlign.Center,
+				fontSize = 32.sp,
+				color = MaterialTheme.colorScheme.onBackground
+			)
+			Spacer(modifier = Modifier.height(Paddings.large))
+			viewModel.tripsList.FoldUIStateWithGlobalCallbacks {
+				LazyColumn(verticalArrangement = Arrangement.spacedBy(Paddings.small)) {
+					items(it) { trip ->
+						TripCard(tripInfo = trip) { }
 					}
 				}
 			}
 		}
+
+		TTFloatingActionButton(
+			modifier = Modifier
+				.align(Alignment.BottomCenter),
+			onClick = viewModel::onAddTripClick,
+			text = "Добавить поездку"
+		)
 	}
 }
 
