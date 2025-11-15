@@ -64,7 +64,7 @@ fun TBottomNavigation(modifier: Modifier = Modifier, selectedPage: Int, onSelect
 						.size(85.dp, 45.dp)
 						.offset(x = animateDpAsState(it).value)
 						.background(
-							MaterialTheme.colorScheme.onSurfaceVariant,
+							MaterialTheme.colorScheme.primary,
 							shape = Shapes.smallRoundedBox
 						)
 				)
