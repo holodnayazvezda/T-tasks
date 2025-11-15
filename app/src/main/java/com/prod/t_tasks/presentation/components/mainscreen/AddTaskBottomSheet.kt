@@ -1,5 +1,6 @@
 package com.prod.t_tasks.presentation.components.mainscreen
 
+import TTTextField
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -101,8 +102,7 @@ fun AddTaskContent(
 		TTTextField(
 			value = title,
 			onValueChange = { title = it },
-			label = "Название",
-			modifier = Modifier.fillMaxWidth()
+			label = "Название"
 		)
 
 		Spacer(Modifier.height(12.dp))
@@ -110,7 +110,6 @@ fun AddTaskContent(
 			value = whatToDo,
 			onValueChange = { whatToDo = it },
 			label = "Что нужно сделать",
-			modifier = Modifier.fillMaxWidth(),
 			singleLine = false
 		)
 
@@ -119,7 +118,6 @@ fun AddTaskContent(
 			value = whyNeed,
 			onValueChange = { whyNeed = it },
 			label = "Зачем это нужно",
-			modifier = Modifier.fillMaxWidth(),
 			singleLine = false
 		)
 
@@ -127,15 +125,7 @@ fun AddTaskContent(
 		TTTextField(
 			value = deadline,
 			onValueChange = { deadline = it },
-			label = "Дедлайн",
-			modifier = Modifier.fillMaxWidth(),
-			trailingIcon = {
-				Icon(
-					imageVector = Icons.Default.CalendarToday,
-					contentDescription = null,
-					tint = cs.onSurfaceVariant
-				)
-			}
+			label = "Дедлайн"
 		)
 
 		Spacer(Modifier.height(20.dp))
