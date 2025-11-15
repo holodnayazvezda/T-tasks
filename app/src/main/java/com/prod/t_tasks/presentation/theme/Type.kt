@@ -20,8 +20,7 @@ val TinkoffSansFamily = FontFamily(
     Font(
         R.font.tinkoff_sans_medium,
         FontWeight.Medium
-    ),
-
+    )
 )
 
 val Typography = Typography(

@@ -26,9 +26,8 @@ class MainActivity : ComponentActivity() {
 	private val sessionDestinationState = MutableStateFlow<AppDestination?>(null)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
-		val splashScreen = installSplashScreen()
+		installSplashScreen()
 
-		splashScreen.setKeepOnScreenCondition { true }
 		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
 		lifecycleScope.launch {
@@ -38,11 +37,11 @@ class MainActivity : ComponentActivity() {
 				false
 			}
 			sessionDestinationState.value =
-				if (isAuthorized) AppDestination.Dashboard else AppDestination.Login
+				if (isAuthorized) AppDestination.Main else AppDestination.Login
 		}
 		setContent {
 			val sessionDestination by sessionDestinationState.collectAsState()
-			TTasksApp(sessionDestination = sessionDestination)
+			TTasksApp(sessionDestination = sessionDestination, context = this)
 			LaunchedEffect(Unit) {
 				requestPermissions(
 					arrayOf(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY), 123
