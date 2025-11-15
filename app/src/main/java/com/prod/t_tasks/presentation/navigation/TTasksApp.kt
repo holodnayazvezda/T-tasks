@@ -55,6 +55,10 @@ fun TTasksApp(
 			AppDestination.Profile.route -> {
 				bottomBarState.value = 2
 			}
+
+			AppDestination.CreateTrip.route -> {
+				bottomBarState.value = -1
+			}
 		}
 		Scaffold(
 			modifier = Modifier.fillMaxSize(),

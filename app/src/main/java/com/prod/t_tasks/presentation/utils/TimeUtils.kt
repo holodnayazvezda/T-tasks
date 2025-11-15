@@ -39,6 +39,13 @@ fun timestampToDate(timestamp: Long, timeZone: TimeZone = TimeZone.getDefault())
 	return formatter.format(date)
 }
 
+fun timestampToDateWithYear(timestamp: Long, timeZone: TimeZone = TimeZone.getDefault()): String {
+	val date = Date(timestamp)
+	val formatter = SimpleDateFormat("dd.MM.YYYY", Locale.getDefault())
+	formatter.timeZone = timeZone
+	return formatter.format(date)
+}
+
 fun convertGMTToSystemTimezone(gmtTimestamp: Long): Long {
 	return getStartOfDayTimestamp(Date(gmtTimestamp))
 }

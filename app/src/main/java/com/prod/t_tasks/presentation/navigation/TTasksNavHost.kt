@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.prod.t_tasks.data.dto.nav_destinations.AppDestination
 import com.prod.t_tasks.domain.utils.NetworkError
 import com.prod.t_tasks.presentation.screens.DashboardScreen
+import com.prod.t_tasks.presentation.screens.createTrip.CreateTripScreen
 import com.prod.t_tasks.presentation.screens.login.LoginScreen
 import com.prod.t_tasks.presentation.screens.main.MainScreen
 import com.prod.t_tasks.presentation.screens.profile.ProfileScreen
@@ -89,6 +90,10 @@ fun TTasksNavHost(
 
 			composable(AppDestination.Dashboard.route) {
 				DashboardScreen()
+			}
+
+			composable (AppDestination.CreateTrip.route){
+				CreateTripScreen()
 			}
 		}
 

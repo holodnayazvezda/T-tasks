@@ -15,8 +15,9 @@ sealed class AppDestination(val route: String) {
 
 	data object Main : AppDestination("app/main")
 
-	data object TripList: AppDestination("app/tripList")
+	data object TripList: AppDestination("app/trip/list")
 
 	data object Profile: AppDestination("app/profile")
 
+	data object CreateTrip: AppDestination("app/trip/create")
 }
