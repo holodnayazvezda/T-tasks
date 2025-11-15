@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.prod.t_tasks.presentation.main_activity.MainActivity
+import com.prod.t_tasks.presentation.MainActivity
 
 class FirebaseMessagingService : FirebaseMessagingService() {
 

@@ -70,6 +70,8 @@ class RegisterViewModel(
 				return@launch
 			}
 
+            _registerState.emit(UIState.Loading())
+
 			val result = registerUserUseCase(
 				RegisterData(
 					firstName = _formState.value.firstName,

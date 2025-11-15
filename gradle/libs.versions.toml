@@ -37,6 +37,7 @@ kotlin = "2.2.21"
 androidLibrary = "8.13.1"
 googleServicesGMC = "4.4.4"
 crashlytics = "3.0.6"
+foundation = "1.9.4"
 
 
 [libraries]
@@ -112,6 +113,7 @@ ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
+androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 
 [plugins]

@@ -1,5 +1,6 @@
 package com.prod.t_tasks.presentation.screens.login
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.prod.t_tasks.domain.model.AuthPayload
 import com.prod.t_tasks.domain.model.LoginData
@@ -50,6 +51,8 @@ class LoginViewModel(
 				_formState.update { it.copy(errors = validation.errors) }
 				return@launch
 			}
+
+            _authState.emit(UIState.Loading())
 
 			val result = loginUserUseCase(
 				LoginData(

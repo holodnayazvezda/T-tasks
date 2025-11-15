@@ -31,6 +31,7 @@ class ValidateAuthFieldsUseCase {
 		val errors = buildMap<AuthField, String> {
 			if (firstName.isBlank()) put(AuthField.FirstName, "Введите имя")
 			if (secondName.isBlank()) put(AuthField.SecondName, "Введите фамилию")
+            if (confirmPassword.isBlank()) put(AuthField.ConfirmPassword, "Повторите пароль")
 			if (!isEmailValid(email)) put(AuthField.Email, "Некорректный email")
 			validatePassword(password)?.let { put(AuthField.Password, it) }
 			if (password != confirmPassword) {

@@ -6,7 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.prod.t_tasks.data.dto.nav_destinations.AppDestination
-import com.prod.t_tasks.presentation.common_ui.theme.TemplateProdChebTheme
+import com.prod.t_tasks.presentation.theme.TemplateProdChebTheme
 
 @Composable
 fun TTasksApp(

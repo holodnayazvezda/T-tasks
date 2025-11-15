@@ -10,23 +10,23 @@ import com.prod.t_tasks.data.dto.nav_destinations.AppDestination
 import com.prod.t_tasks.presentation.screens.login.LoginScreen
 import com.prod.t_tasks.presentation.screens.register.RegisterScreen
 import com.prod.t_tasks.presentation.screens.DashboardScreen
-import com.prod.t_tasks.presentation.screens.SplashScreen
+import com.prod.t_tasks.presentation.screens.register.RegisterViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TTasksNavHost(
 	navController: NavHostController,
 	modifier: Modifier = Modifier,
-	startDestination: AppDestination = AppDestination.Splash,
 	sessionDestination: AppDestination? = null
 ) {
+    val startDestination = sessionDestination?.route ?: AppDestination.Login.route
+    val registerViewModel: RegisterViewModel = koinViewModel()
+
 	NavHost(
 		navController = navController,
-		startDestination = startDestination.route,
+		startDestination = startDestination,
 		modifier = modifier
 	) {
-		composable(AppDestination.Splash.route) {
-			SplashScreen()
-		}
 		composable(AppDestination.Login.route) {
 			LoginScreen(
 				onRegisterClick = {
@@ -48,27 +48,12 @@ fun TTasksNavHost(
 					navController.navigate(AppDestination.Dashboard.route) {
 						popUpTo(AppDestination.Register.route) { inclusive = true }
 					}
-				}
+				},
+                viewModel = registerViewModel
 			)
 		}
 		composable(AppDestination.Dashboard.route) {
 			DashboardScreen()
-		}
-	}
-
-	LaunchedEffect(sessionDestination) {
-		when (sessionDestination) {
-			AppDestination.Dashboard -> {
-				navController.navigate(AppDestination.Dashboard.route) {
-					popUpTo(AppDestination.Splash.route) { inclusive = true }
-				}
-			}
-			AppDestination.Login -> {
-				navController.navigate(AppDestination.Login.route) {
-					popUpTo(AppDestination.Splash.route) { inclusive = true }
-				}
-			}
-			else -> Unit
 		}
 	}
 }
