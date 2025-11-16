@@ -23,27 +23,46 @@ data class ValidationResult(
 @Single
 class ValidateAuthFieldsUseCase {
 
-	fun validateRegister(
-		firstName: String,
-		secondName: String,
-		email: String,
-		password: String,
-		confirmPassword: String
-	): ValidationResult {
-		val errors = buildMap {
-			if (firstName.isBlank()) put(AuthField.FirstName, "Введите имя")
-			if (secondName.isBlank()) put(AuthField.SecondName, "Введите фамилию")
+    fun validateRegister(
+        firstName: String,
+        secondName: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): ValidationResult {
+        val errors = buildMap {
+            if (firstName.isBlank()) put(AuthField.FirstName, "Введите имя")
+            if (secondName.isBlank()) put(AuthField.SecondName, "Введите фамилию")
             if (confirmPassword.isBlank()) put(AuthField.ConfirmPassword, "Повторите пароль")
-			if (!isEmailValid(email)) put(AuthField.Email, "Некорректный email")
-			validatePassword(password)?.let { put(AuthField.Password, it) }
-			if (password != confirmPassword) {
-				put(AuthField.ConfirmPassword, "Пароли не совпадают")
-			}
-		}
-		return ValidationResult(errors)
-	}
+            if (!isEmailValid(email)) put(AuthField.Email, "Некорректный email")
 
-	fun validateLogin(
+            validatePassword(password)?.let { put(AuthField.Password, it) }
+
+            if (password != confirmPassword) {
+                put(AuthField.ConfirmPassword, "Пароли не совпадают")
+            }
+        }
+        return ValidationResult(errors)
+    }
+
+    fun validatePassword(password: String): String? {
+        if (password.length < 8) {
+            return "Пароль должен быть не менее 8 символов"
+        }
+        if (!password.any { it.isUpperCase() }) {
+            return "Пароль должен содержать хотя бы одну заглавную букву"
+        }
+        if (!password.any { it.isDigit() }) {
+            return "Пароль должен содержать хотя бы одну цифру"
+        }
+        if (!password.any { !it.isLetterOrDigit() }) {
+            return "Пароль должен содержать хотя бы один специальный символ"
+        }
+        return null // пароль валидный
+    }
+
+
+    fun validateLogin(
 		email: String,
 		password: String
 	): ValidationResult {
@@ -67,9 +86,4 @@ class ValidateAuthFieldsUseCase {
 
 	private fun isEmailValid(email: String): Boolean =
 		email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-	private fun validatePassword(password: String): String? {
-		if (password.length < 6) return "Минимальная длина пароля 6 символов"
-		return null
-	}
 }
