@@ -18,7 +18,7 @@ data class UITaskModel(
 fun Task.mapToUI(): UITaskModel = UITaskModel(
 	id = id,
 	name = name,
-	typeIcon = getTypeIcon(typeId),
+	typeIcon = getTypeIcon(typeIds.let { if (it.size == 1) it[0] else -1 }),
 	deadline = deadline,
 	archived = archived,
 	common = common

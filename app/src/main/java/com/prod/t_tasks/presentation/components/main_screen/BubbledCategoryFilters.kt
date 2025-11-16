@@ -19,7 +19,7 @@ import com.prod.t_tasks.presentation.theme.Paddings
 fun BubbledCategoryFilters(
     modifier: Modifier = Modifier,
     categories: List<UITaskTopicModel>,
-    selectedList: List<Int>,
+    selectedItemId: Int,
     onCategoryToggle: (Int) -> Unit
 ) {
     val widthScreenDp = LocalConfiguration.current.screenWidthDp
@@ -37,7 +37,7 @@ fun BubbledCategoryFilters(
         items(categories) { category ->
             CategoryBubble(
                 name = category.name,
-                isSelected = category.id in selectedList
+                isSelected = category.id == selectedItemId
             ) {
                 onCategoryToggle(category.id)
             }

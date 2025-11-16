@@ -78,7 +78,7 @@ class MainScreenViewModel(
 
 	// Topic filters
 
-	val selectedTopicIds = mutableStateSetOf<Int>()
+	val selectedTopicId = mutableStateOf<Int?>(null)
 
 	val topicList = MutableUIStateFlow<List<UITaskTopicModel>>()
 
@@ -88,7 +88,11 @@ class MainScreenViewModel(
 	}
 
 	fun selectTopic(id: Int) {
-		selectedTopicIds.toggleItem(id)
+		if (selectedTopicId.value == id) {
+			selectedTopicId.value = null
+		} else {
+			selectedTopicId.value = id
+		}
 	}
 
 	// Tasks
@@ -98,8 +102,9 @@ class MainScreenViewModel(
 		TaskFilters(
 			dateStart = dates.first,
 			dateEnd = dates.second,
-			topicIds = selectedTopicIds.toList(),
-			onlySelf = onlyMyTasksState.value
+			topicId = selectedTopicId.value,
+			onlySelf = onlyMyTasksState.value,
+			showArchived = showFinished.value
 		)
 	}.flatMapLatest {
 		loadTasksUseCase(it)

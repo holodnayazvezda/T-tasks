@@ -96,7 +96,7 @@ fun ErrorCollectorScope.MainScreen(
 				viewModel.topicList.FoldUIStateWithGlobalCallbacks { topics ->
 					BubbledCategoryFilters(
 						categories = topics,
-						selectedList = viewModel.selectedTopicIds.toList()
+						selectedItemId = viewModel.selectedTopicId.value ?: -1
 					) { categoryId ->
 						viewModel.selectTopic(categoryId)
 					}
@@ -154,7 +154,7 @@ fun ErrorCollectorScope.MainScreen(
 		}
 	}
 
-	if (openTaskAddSheet.value){
+	if (openTaskAddSheet.value) {
 		AddTaskBottomSheet(
 			sheetState = sheetState,
 			onDismiss = {

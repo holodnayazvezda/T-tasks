@@ -149,7 +149,7 @@ abstract class BaseRepository {
         maxSize: Int = Int.MAX_VALUE,
         jumpThreshold: Int = Int.MIN_VALUE,
         dbDao: BasePaginationDAO<Value>,
-        makeRequest: suspend (page: Long, pageCount: Int) -> Result<List<Value>>
+        makeRequest: suspend (page: Long, pageSize: Int) -> Result<List<Value>>
     ): Flow<PagingData<Value>> {
         assertDBSpecify()
 

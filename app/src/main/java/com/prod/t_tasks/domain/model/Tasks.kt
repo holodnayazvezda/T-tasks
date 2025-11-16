@@ -3,7 +3,7 @@ package com.prod.t_tasks.domain.model
 data class Task(
 	val id: Long,
 	val name: String,
-	val typeId: Int,
+	val typeIds: List<Int>,
 	val deadline: Long,
 	val archived: Boolean,
 	val common: Boolean
@@ -17,6 +17,7 @@ data class TaskCategory(
 data class TaskFilters(
 	val dateStart: Long,
 	val dateEnd: Long,
-	val topicIds: List<Int>,
-	val onlySelf: Boolean
+	val topicId: Int?,
+	val onlySelf: Boolean,
+	val showArchived: Boolean
 )
