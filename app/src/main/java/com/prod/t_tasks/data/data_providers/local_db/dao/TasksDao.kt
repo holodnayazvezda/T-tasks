@@ -41,4 +41,6 @@ interface TasksDao {
 	@Query("UPDATE tasks SET archived = :state WHERE id = :id")
 	suspend fun setTaskArchivedState(id: Long, state: Boolean)
 
+	@Query("UPDATE tasks SET deadline = :deadline WHERE id = :id")
+	suspend fun setTaskDeadline(id: Long, deadline: Long)
 }

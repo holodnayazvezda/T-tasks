@@ -13,7 +13,9 @@ data class UITaskModel(
 	val deadline: Long,
 	val archived: Boolean,
 	val common: Boolean,
-	val tripId: Long
+	val tripId: Long,
+	val whatNeedToDo: String,
+	val reason: String
 )
 
 fun Task.mapToUI(): UITaskModel = UITaskModel(
@@ -23,7 +25,9 @@ fun Task.mapToUI(): UITaskModel = UITaskModel(
 	deadline = deadline,
 	archived = archived,
 	common = common,
-	tripId = tripId
+	tripId = tripId,
+	whatNeedToDo = whatNeedToDo,
+	reason = reason
 )
 
 fun getTypeIcon(id: Int): Int {

@@ -26,4 +26,10 @@ interface TasksRepository {
 		tripId: Long,
 		taskId: Long
 	)
+
+	suspend fun patchTaskDeadline(
+		tripId: Long,
+		taskId: Long,
+		deadline: Long
+	)
 }

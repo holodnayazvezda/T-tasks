@@ -8,6 +8,7 @@ import com.prod.t_tasks.data.data_providers.api.ApiKtorClient
 import com.prod.t_tasks.data.data_providers.local_db.AppDatabase
 import com.prod.t_tasks.data.data_providers.local_db.entities.TaskEntity
 import com.prod.t_tasks.data.data_providers.local_db.entities.mapToDB
+import com.prod.t_tasks.data.dto.tasks.ChangeDeadlineDTO
 import com.prod.t_tasks.data.dto.tasks.ChangeStatusDTO
 import com.prod.t_tasks.data.dto.tasks.CreateTaskDTO
 import com.prod.t_tasks.data.dto.tasks.TaskCategoryDTO
@@ -19,6 +20,7 @@ import com.prod.t_tasks.domain.model.TaskCategory
 import com.prod.t_tasks.domain.model.TaskFilters
 import com.prod.t_tasks.domain.utils.RemotePagingWrapper
 import com.prod.t_tasks.domain.utils.convertToNetworkError
+import com.prod.t_tasks.presentation.utils.timestampToIso
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
@@ -186,6 +188,30 @@ class TasksRepositoryImpl(
 			contentType(ContentType.Application.Json)
 		}.onSuccess {
 			tasksDao.setTaskArchivedState(taskId, false)
+		}
+	}
+
+	override suspend fun patchTaskDeadline(
+		tripId: Long,
+		taskId: Long,
+		deadline: Long
+	) {
+		networkRequest<TaskDTO> {
+			method = HttpMethod.Patch
+			url {
+				path(
+					"api",
+					"v1",
+					"tasks",
+					"trip",
+					tripId.toString(),
+					taskId.toString()
+				)
+			}
+			setBody(ChangeDeadlineDTO(timestampToIso(deadline)))
+			contentType(ContentType.Application.Json)
+		}.onSuccess {
+			tasksDao.setTaskDeadline(taskId, deadline)
 		}
 	}
 }

@@ -26,6 +26,8 @@ data class TaskEntity(
 		deadline = deadline,
 		archived = archived,
 		common = common,
-		tripId = tripId
+		tripId = tripId,
+		whatNeedToDo = whatToDo,
+		reason = reason
 	)
 }

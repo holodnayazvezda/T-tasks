@@ -7,7 +7,9 @@ data class Task(
 	val deadline: Long,
 	val archived: Boolean,
 	val common: Boolean,
-	val tripId: Long
+	val tripId: Long,
+	val whatNeedToDo: String,
+	val reason: String
 )
 
 data class TaskCategory(

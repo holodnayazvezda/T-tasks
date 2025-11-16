@@ -6,3 +6,8 @@ import kotlinx.serialization.Serializable
 data class ChangeStatusDTO(
 	val user_status: String
 )
+
+@Serializable
+data class ChangeDeadlineDTO(
+	val due_time: String
+)

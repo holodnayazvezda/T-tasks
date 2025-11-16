@@ -16,6 +16,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -27,72 +29,93 @@ import com.prod.t_tasks.presentation.commonDataModels.UITaskModel
 import com.prod.t_tasks.presentation.theme.Paddings
 import com.prod.t_tasks.presentation.theme.Shapes
 import com.prod.t_tasks.presentation.theme.Typography
+import com.prod.t_tasks.presentation.utils.timestampToDateWithYear
+import com.prod.t_tasks.presentation.utils.ui.DatePickerModal
 import com.prod.t_tasks.presentation.utils.ui.noRippleClickable
 
 @Composable
 fun TaskCard(
-    modifier: Modifier = Modifier,
-    taskInfo: UITaskModel,
-    isArchiveWaiting: Boolean,
-    onArchiveToggle: () -> Unit
+	modifier: Modifier = Modifier,
+	onClick: () -> Unit = {},
+	taskInfo: UITaskModel,
+	isArchiveWaiting: Boolean,
+	onArchiveToggle: () -> Unit
 ) {
-    Card(
-        modifier = modifier
-            .then(if (isArchiveWaiting) Modifier.alpha(0.3f) else Modifier),
-        shape = Shapes.smallRoundedBox,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        ),
-        onClick = {}
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    Paddings.medium
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column {
-                Row {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(R.drawable.ic_documents),
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.width(Paddings.small))
+	Card(
+		modifier = modifier
+			.then(if (isArchiveWaiting) Modifier.alpha(0.3f) else Modifier),
+		shape = Shapes.smallRoundedBox,
+		colors = CardDefaults.cardColors(
+			containerColor = MaterialTheme.colorScheme.primaryContainer,
+			contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+		),
+		onClick = onClick
+	) {
+		Row(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(
+					Paddings.medium
+				),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.SpaceBetween
+		) {
+			Column {
+				Row {
+					Icon(
+						modifier = Modifier.size(20.dp),
+						painter = painterResource(R.drawable.ic_documents),
+						contentDescription = null
+					)
+					Spacer(modifier = Modifier.width(Paddings.small))
 
-                    Text(text = taskInfo.name, style = Typography.titleMedium, fontSize = 16.sp)
-                }
-                Spacer(modifier = Modifier.height(Paddings.small))
+					Text(text = taskInfo.name, style = Typography.titleMedium, fontSize = 16.sp)
+				}
+				Spacer(modifier = Modifier.height(Paddings.small))
+				Row {
+					Row(
+						modifier =
+							Modifier
+								.background(
+									MaterialTheme.colorScheme.tertiaryContainer,
+									shape = Shapes.smallRoundedBox
+								)
+								.padding(Paddings.small)
+					) {
+						Text(
+							text = if (taskInfo.common) "Общая задача" else "Индивидуальная задача",
+							style = Typography.labelLarge,
+							fontSize = 14.sp
+						)
+					}
 
-                Row(
-                    modifier =
-                        Modifier
-                            .background(
-                                MaterialTheme.colorScheme.secondaryContainer,
-                                shape = Shapes.smallRoundedBox
-                            )
-                            .padding(Paddings.verySmall)
-                ) {
-                    Text(
-                        text = if (taskInfo.common) "Общая задача" else "Индивидуальная задача",
-                        style = Typography.labelLarge,
-                        fontSize = 14.sp
-                    )
-                }
-            }
-            Icon(
-                modifier = Modifier
-                    .size(32.dp)
-                    .noRippleClickable {
-                        onArchiveToggle()
-                    },
-                painter = painterResource(if (isArchiveWaiting || taskInfo.archived) R.drawable.ic_flag_filled else R.drawable.ic_flag_unfilled),
-                contentDescription = "Mark as done"
-            )
-        }
-    }
+					Spacer(modifier = Modifier.width(Paddings.small))
+					Row(
+						modifier =
+							Modifier
+								.background(
+									MaterialTheme.colorScheme.secondaryContainer,
+									shape = Shapes.smallRoundedBox
+								)
+								.padding(Paddings.small)
+					) {
+						Text(
+							text = "До ${timestampToDateWithYear(taskInfo.deadline)}",
+							style = Typography.labelLarge,
+							fontSize = 14.sp
+						)
+					}
+				}
+			}
+			Icon(
+				modifier = Modifier
+					.size(32.dp)
+					.noRippleClickable {
+						onArchiveToggle()
+					},
+				painter = painterResource(if (isArchiveWaiting || taskInfo.archived) R.drawable.ic_flag_filled else R.drawable.ic_flag_unfilled),
+				contentDescription = "Mark as done"
+			)
+		}
+	}
 }

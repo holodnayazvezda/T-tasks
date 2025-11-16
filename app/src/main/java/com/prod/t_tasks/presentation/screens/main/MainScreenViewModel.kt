@@ -8,9 +8,11 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.map
 import com.prod.t_tasks.domain.model.TaskFilters
+import com.prod.t_tasks.domain.usecase.tasks.ChangeDeadlineUseCase
 import com.prod.t_tasks.domain.usecase.tasks.LoadTasksTopicListUseCase
 import com.prod.t_tasks.domain.usecase.tasks.LoadTasksUseCase
 import com.prod.t_tasks.domain.usecase.tasks.SetFinishedStateToTaskUseCase
+import com.prod.t_tasks.presentation.commonDataModels.UITaskModel
 import com.prod.t_tasks.presentation.commonDataModels.UITaskTopicModel
 import com.prod.t_tasks.presentation.commonDataModels.mapToUI
 import com.prod.t_tasks.presentation.utils.base.BaseViewModel
@@ -30,7 +32,8 @@ import org.koin.android.annotation.KoinViewModel
 class MainScreenViewModel(
 	private val loadTasksUseCase: LoadTasksUseCase,
 	private val loadTasksTopicsListUseCase: LoadTasksTopicListUseCase,
-	private val setFinishedStateToTaskUseCase: SetFinishedStateToTaskUseCase
+	private val setFinishedStateToTaskUseCase: SetFinishedStateToTaskUseCase,
+	private val changeDeadlineUseCase: ChangeDeadlineUseCase
 ) : BaseViewModel() {
 
 	var userChanged = false
@@ -148,6 +151,14 @@ class MainScreenViewModel(
 
 	fun update() {
 		loadTopicList()
+	}
+
+	fun changeTaskDeadline(value: UITaskModel?, date: Long) {
+		viewModelScope.launch {
+			value?.let {
+				changeDeadlineUseCase(value.tripId, value.id, date)
+			}
+		}
 	}
 
 	init {
