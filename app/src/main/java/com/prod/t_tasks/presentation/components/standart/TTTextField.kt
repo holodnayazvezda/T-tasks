@@ -29,11 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prod.t_tasks.R
+import com.prod.t_tasks.presentation.theme.Typography
 import com.prod.t_tasks.presentation.utils.ui.noRippleClickable
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
@@ -253,6 +255,16 @@ fun <T> TTTextFieldWithDropdown(
 				onDismissRequest = { expanded = false },
 				modifier = Modifier.exposedDropdownSize()
 			) {
+				if (dropdownItems.isEmpty()) {
+					DropdownMenuItem(
+						text = {
+							Text("Здесь пока ничего нет", style = Typography.titleMedium)
+						},
+						onClick = {
+							expanded = false
+						}
+					)
+				}
 				dropdownItems.forEach { item ->
 					DropdownMenuItem(
 						text = {

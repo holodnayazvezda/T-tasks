@@ -36,6 +36,8 @@ class MainScreenViewModel(
 	private val markTaskAsDoneUseCase: MarkTaskAsDoneUseCase
 ) : BaseViewModel() {
 
+	var userChanged = false
+
 	// Date filter
 	private val defaultDateFilterState =
 		getStartOfTodayTimestamp().let { Pair(it, it + 86400000) }
@@ -62,6 +64,7 @@ class MainScreenViewModel(
 	}
 
 	fun setDate(dates: Pair<Long, Long>) {
+		userChanged = true
 		dateState.value =
 			Pair(
 				convertGMTToSystemTimezone(dates.first),

@@ -62,6 +62,21 @@ fun ErrorCollectorScope.MainScreen(
 			TopLogo()
 			Spacer(modifier = Modifier.height(Paddings.large))
 
+			MainScreenFilters(viewModel = viewModel) {
+				openCalendarModal.value = true
+			}
+
+			Spacer(modifier = Modifier.height(Paddings.large))
+
+			viewModel.topicList.FoldUIStateWithGlobalCallbacks { topics ->
+				BubbledCategoryFilters(
+					categories = topics,
+					selectedItemId = viewModel.selectedTopicId.value ?: -1
+				) { categoryId ->
+					viewModel.selectTopic(categoryId)
+				}
+			}
+			Spacer(modifier = Modifier.height(Paddings.large))
 
 			if (tasks.loadState.hasError) {
 				Text(
@@ -89,19 +104,6 @@ fun ErrorCollectorScope.MainScreen(
 				Spacer(modifier = Modifier.weight(3f))
 
 			} else {
-				MainScreenFilters(viewModel = viewModel) {
-					openCalendarModal.value = true
-				}
-				Spacer(modifier = Modifier.height(Paddings.large))
-				viewModel.topicList.FoldUIStateWithGlobalCallbacks { topics ->
-					BubbledCategoryFilters(
-						categories = topics,
-						selectedItemId = viewModel.selectedTopicId.value ?: -1
-					) { categoryId ->
-						viewModel.selectTopic(categoryId)
-					}
-				}
-				Spacer(modifier = Modifier.height(Paddings.large))
 				LazyColumn(
 					verticalArrangement = Arrangement.spacedBy(Paddings.small),
 					horizontalAlignment = Alignment.CenterHorizontally
@@ -128,17 +130,15 @@ fun ErrorCollectorScope.MainScreen(
 			}
 		}
 
-		if ((tasks.loadState.append.endOfPaginationReached && tasks.itemCount == 0).not()) {
-			TTFloatingActionButton(
-				modifier = Modifier
-					.align(Alignment.BottomCenter)
-					.padding(bottom = Paddings.medium),
-				onClick = {
-					openTaskAddSheet.value = true
-				},
-				text = "Добавить задачу"
-			)
-		}
+		TTFloatingActionButton(
+			modifier = Modifier
+				.align(Alignment.BottomCenter)
+				.padding(bottom = Paddings.medium),
+			onClick = {
+				openTaskAddSheet.value = true
+			},
+			text = "Добавить задачу"
+		)
 	}
 
 
