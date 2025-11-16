@@ -38,7 +38,7 @@ fun TTTextField(
 	value: String,
 	onValueChange: (String) -> Unit,
 	readOnly: Boolean = false,
-	label: String,
+	label: String = "",
 	error: String? = null,
 	singleLine: Boolean = true,
 	maxLines: Int = 1,

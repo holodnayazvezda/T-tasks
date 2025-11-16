@@ -23,10 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.prod.t_tasks.presentation.components.main_screen.BubbledCategoryFilters
+import com.prod.t_tasks.presentation.components.main_screen.MainScreenFilters
+import com.prod.t_tasks.presentation.components.main_screen.TaskCard
 import com.prod.t_tasks.presentation.components.mainscreen.addTaskBottomSheet.AddTaskBottomSheet
-import com.prod.t_tasks.presentation.components.mainscreen.BubbledCategoryFilters
-import com.prod.t_tasks.presentation.components.mainscreen.MainScreenFilters
-import com.prod.t_tasks.presentation.components.mainscreen.TaskCard
 import com.prod.t_tasks.presentation.components.standart.BigButton
 import com.prod.t_tasks.presentation.components.standart.TTFloatingActionButton
 import com.prod.t_tasks.presentation.components.standart.TopLogo

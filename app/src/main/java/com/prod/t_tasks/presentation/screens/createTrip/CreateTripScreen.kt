@@ -35,7 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prod.t_tasks.R
-import com.prod.t_tasks.presentation.components.mainscreen.CategoryBubble
+import com.prod.t_tasks.presentation.components.main_screen.CategoryBubble
 import com.prod.t_tasks.presentation.components.standart.BigButton
 import com.prod.t_tasks.presentation.theme.Paddings
 import com.prod.t_tasks.presentation.theme.Shapes

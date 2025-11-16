@@ -82,7 +82,7 @@ class ProfileScreenViewModel(
                 _state.update {
                     it.copy(
                         firstName = user.firstName,
-                        secondName = user.secondName
+                        secondName = user.secondName?: ""
                     )
                 }
             }
