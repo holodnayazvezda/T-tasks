@@ -50,7 +50,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CreateTripScreen(
 	modifier: Modifier = Modifier,
-	viewModel: CreateTripViewModel = koinViewModel()
+	viewModel: CreateTripViewModel = koinViewModel(),
+    navigateToListTrips: () -> Unit
 ) {
 	val openCalendarModal = remember { mutableStateOf(false) }
 
@@ -289,6 +290,7 @@ fun CreateTripScreen(
 		BigButton(
             onClick = {
                 viewModel.submit()
+                navigateToListTrips()
             },
             buttonText = "Поехали!",
             isLoading = false

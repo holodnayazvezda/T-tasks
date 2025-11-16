@@ -101,7 +101,9 @@ fun TTasksNavHost(
 			}
 
 			composable(AppDestination.CreateTrip.route) {
-				CreateTripScreen()
+				CreateTripScreen(
+                    navigateToListTrips = { navController.navigate(AppDestination.TripList.route) }
+                )
 			}
 		}
 
