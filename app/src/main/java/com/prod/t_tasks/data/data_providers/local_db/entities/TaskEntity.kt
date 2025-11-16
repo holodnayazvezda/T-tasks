@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.prod.t_tasks.data.base.BaseEntity
 import com.prod.t_tasks.domain.model.Task
+import com.prod.t_tasks.domain.model.trip.TripsTask
 
 @Entity(tableName = "tasks")
 data class TaskEntity(

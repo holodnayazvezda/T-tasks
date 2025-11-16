@@ -3,7 +3,6 @@ package com.prod.t_tasks.domain.interfaces
 import com.prod.t_tasks.data.dto.tasks.CreateTaskDTO
 import com.prod.t_tasks.domain.model.Task
 import com.prod.t_tasks.domain.model.TaskCategory
-import com.prod.t_tasks.domain.model.trip.TripsTask
 import com.prod.t_tasks.domain.model.TaskFilters
 import com.prod.t_tasks.domain.utils.RemotePagingWrapper
 import kotlinx.coroutines.flow.Flow
@@ -16,5 +15,5 @@ interface TasksRepository {
     suspend fun createTask(
         tripId: Long,
         createTaskDTO: CreateTaskDTO
-    ): Result<TripsTask>
+    ): Result<Task>
 }

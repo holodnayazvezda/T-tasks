@@ -1,5 +1,6 @@
 package com.prod.t_tasks.data.repositories
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.map
 import com.prod.t_tasks.data.base.BasePaginationDAO
@@ -20,7 +21,9 @@ import com.prod.t_tasks.domain.model.trip.TripsTask
 import com.prod.t_tasks.domain.utils.RemotePagingWrapper
 import com.prod.t_tasks.domain.utils.convertToNetworkError
 import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
 import io.ktor.http.path
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -86,7 +89,7 @@ class TasksRepositoryImpl(
 						endDate = filters.dateEnd,
 						withoutCommon = filters.onlySelf,
 						showFinished = filters.showArchived,
-						categoryFilter = "%${filters.topicId}%"
+						categoryFilter = "%${filters.topicId ?: ""}%"
 					)
 				}
 
@@ -100,7 +103,7 @@ class TasksRepositoryImpl(
 						endDate = filters.dateEnd,
 						withoutCommon = filters.onlySelf,
 						showFinished = filters.showArchived,
-						categoryFilter = "%${filters.topicId}%"
+						categoryFilter = "%${filters.topicId ?: ""}%"
 					)
 				}
 
@@ -125,16 +128,21 @@ class TasksRepositoryImpl(
 		).map { it -> it.map { it.mapToDomain() } }
 	}
 
-    override suspend fun createTask(
-        tripId: Long,
-        createTaskDTO: CreateTaskDTO
-    ): Result<TripsTask> {
-        return networkRequest<TaskDTO> {
-            method = HttpMethod.Post
-            url {
-                path("api", "v1", "tasks", "trip", tripId.toString())
-            }
-            setBody(createTaskDTO)
-        }.map { it.mapToDomain() }
-    }
+	override suspend fun createTask(
+		tripId: Long,
+		createTaskDTO: CreateTaskDTO
+	): Result<Task> {
+		return networkRequest<TaskDTO> {
+			method = HttpMethod.Post
+			url {
+				path("api", "v1", "tasks", "trip", tripId.toString())
+			}
+			setBody(createTaskDTO)
+			contentType(ContentType.Application.Json)
+		}.map {
+			it.mapToDB().also {
+				tasksDao.upsert(listOf(it))
+			}.mapToDomain()
+		}
+	}
 }

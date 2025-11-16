@@ -28,6 +28,17 @@ data class TaskDTO(
 		common = is_common,
 		deadline = isoToTimestamp(due_time)
 	)
+
+	fun mapToDB(): TaskEntity = TaskEntity(
+		id = id,
+		name = title,
+		whatToDo = description?.substringBefore('.') ?: "",
+		reason = description?.substringAfter('.') ?: "",
+		typeIds = categories.map { it.id }.joinToString("|"),
+		deadline = isoToTimestamp(due_time),
+		archived = status == "completed",
+		common = is_common
+	)
 }
 
 @Serializable
