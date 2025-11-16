@@ -13,7 +13,7 @@ data class UITripModel(
 
 fun Trip.mapToUI(): UITripModel = UITripModel(
 	id = id,
-	placeName = "$country - $city",
+	placeName = "${country?.let { if (it.isNotBlank()) "$it - " else "" }}${city?:""}",
 	dateRangeString = "${timestampToDateWithYear(this.startDate)}-${timestampToDateWithYear(this.endDate)}",
 	countOfPeoples = membersCount,
 	readyPercentage = null

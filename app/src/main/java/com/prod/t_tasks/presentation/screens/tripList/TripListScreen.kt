@@ -137,7 +137,7 @@ fun TripCard(modifier: Modifier = Modifier, tripInfo: UITripModel, onClick: () -
 				Text(
 					text = tripInfo.placeName,
 					style = Typography.titleMedium,
-					fontSize = 24.sp
+					fontSize = 20.sp
 				)
 				Spacer(modifier.height(Paddings.small))
 				Spacer(modifier.weight(1f))
