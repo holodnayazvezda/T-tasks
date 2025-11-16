@@ -2,6 +2,7 @@ package com.prod.t_tasks.presentation.components.mainscreen.addTaskBottomSheet
 
 import android.util.Log
 import com.prod.t_tasks.domain.usecase.tasks.LoadTasksTopicListUseCase
+import com.prod.t_tasks.domain.usecase.trips.GetAllUserTripsUseCase
 import com.prod.t_tasks.presentation.commonDataModels.UITaskTopicModel
 import com.prod.t_tasks.presentation.commonDataModels.UITripModel
 import com.prod.t_tasks.presentation.commonDataModels.mapToUI
@@ -26,7 +27,8 @@ data class TaskCreateFormState(
 
 @KoinViewModel
 class AddTaskBottomSheetViewModel(
-	private val loadTasksTopicsListUseCase: LoadTasksTopicListUseCase
+	private val loadTasksTopicsListUseCase: LoadTasksTopicListUseCase,
+	private val getAllUserTripsUseCase: GetAllUserTripsUseCase
 ) : BaseViewModel() {
 
 	val userTrips = MutableUIStateFlow<List<UITripModel>>()
@@ -39,7 +41,8 @@ class AddTaskBottomSheetViewModel(
 	}
 
 	fun loadUserTrips() {
-
+		getAllUserTripsUseCase().map { it.map { it.map { it.mapToUI() } } }
+			.collectRequest(userTrips)
 	}
 
 	private val _formState = MutableStateFlow(TaskCreateFormState())

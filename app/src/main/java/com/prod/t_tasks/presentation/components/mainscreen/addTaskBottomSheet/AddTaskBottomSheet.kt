@@ -111,8 +111,10 @@ fun ErrorCollectorScope.AddTaskContent(
 			dropdownItems = viewModel.userTrips.collectAsValueStateWithCallbacks().value
 				?: emptyList(),
 			dropDownItem = {
-				Text(it.placeName, style = Typography.titleMedium)
-				Text(it.dateRangeString, style = Typography.labelLarge)
+				Column {
+					Text(it.placeName, style = Typography.titleMedium)
+					Text(it.dateRangeString, style = Typography.labelLarge)
+				}
 			},
 			onDropdownItemSelected = viewModel::setTrip
 		)
