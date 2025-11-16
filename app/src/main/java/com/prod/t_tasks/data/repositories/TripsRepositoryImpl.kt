@@ -4,12 +4,16 @@ import com.prod.t_tasks.data.base.BaseRepository
 import com.prod.t_tasks.data.data_providers.api.ApiKtorClient
 import com.prod.t_tasks.data.data_providers.local_db.AppDatabase
 import com.prod.t_tasks.data.data_providers.local_db.entities.mapToDB
+import com.prod.t_tasks.data.dto.trips.CreateTripDTO
 import com.prod.t_tasks.data.dto.trips.TripDTO
 import com.prod.t_tasks.domain.interfaces.TripsRepository
 import com.prod.t_tasks.domain.model.trip.Trip
 import com.prod.t_tasks.domain.utils.NetworkError
 import com.prod.t_tasks.domain.utils.convertToNetworkError
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
 import io.ktor.http.path
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -75,4 +79,24 @@ class TripsRepositoryImpl(
 				emit(Result.failure(e.convertToNetworkError()))
 			}
 		)
+
+    override suspend fun createTrip(createTripDTO: CreateTripDTO): Result<Trip> {
+        return networkRequest<TripDTO> {
+            method = HttpMethod.Post
+            url {
+                path("api", "v1", "trips/")
+            }
+            setBody(createTripDTO)
+            contentType(ContentType.Application.Json)
+        }.map {
+            val savedUser = userDao.getUser()
+            savedUser?.id?.let { userId ->
+                it.mapToDomain(userId).also {
+                    it.mapToDB().also {
+                        tripsDao.upsert(listOf(it))
+                    }
+                }
+            } as Trip
+        }
+    }
 }

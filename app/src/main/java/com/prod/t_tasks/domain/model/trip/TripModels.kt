@@ -57,18 +57,19 @@ data class Trip(
 	val tasks: List<TripsTask>
 )
 
-data class TripCreateData(
-	val startDate: String,
-	val endDate: String,
-	val destinationType: DestinationType?,
-	val city: String?,
+data class TripCreate(
+	val startDate: Long,
+	val endDate: Long,
+	val destinationType: String?,
+	val city: String,
 	val country: String?,
 	val description: String?,
-	val purpose: String?,
-	val transport: TravelType,
+	val purpose: String,
+	val transport: String,
 	val withKids: Boolean,
 	val withPets: Boolean,
 	val kidsAges: List<Int>,
+    val membersIds: List<Long>,
 	val autoGenerateTasks: Boolean
 )
 

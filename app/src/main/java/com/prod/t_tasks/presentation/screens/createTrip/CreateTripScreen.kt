@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prod.t_tasks.R
+import com.prod.t_tasks.domain.usecase.trips.CreateTripFields
 import com.prod.t_tasks.presentation.components.main_screen.CategoryBubble
 import com.prod.t_tasks.presentation.components.standart.BigButton
 import com.prod.t_tasks.presentation.theme.Paddings
@@ -102,7 +103,9 @@ fun CreateTripScreen(
 					tint = MaterialTheme.colorScheme.onPrimary,
 					contentDescription = null
 				)
-			}
+			},
+            error = formState.errors[CreateTripFields.DateStart]
+
 		)
 
 		Spacer(modifier = Modifier.height(Paddings.small))
@@ -119,7 +122,8 @@ fun CreateTripScreen(
 			TTTextField(
 				value = formState.country ?: "",
 				onValueChange = viewModel::setCountry,
-				label = "Страна"
+				label = "Страна",
+                error = formState.errors[CreateTripFields.Country]
 			)
 		}
 
@@ -129,17 +133,19 @@ fun CreateTripScreen(
 		TTTextField(
 			value = formState.city ?: "",
 			onValueChange = viewModel::setCity,
-			label = "Город"
+			label = "Город",
+            error = formState.errors[CreateTripFields.City]
 		)
 
 		Spacer(modifier = Modifier.height(Paddings.small))
 
 		TTTextField(
 			value = formState.description ?: "",
-			onValueChange = viewModel::setCity,
+			onValueChange = viewModel::setDescription,
 			label = "Описание поездки",
 			singleLine = false,
-			maxLines = 5
+			maxLines = 5,
+            error = formState.errors[CreateTripFields.Description]
 		)
 
 		Spacer(modifier = Modifier.height(Paddings.small))
@@ -152,7 +158,8 @@ fun CreateTripScreen(
 			dropDownItem = {
 				Text(it.second, style = Typography.labelLarge)
 			},
-			onDropdownItemSelected = viewModel::setGoal
+			onDropdownItemSelected = viewModel::setGoal,
+            error = formState.errors[CreateTripFields.Goal]
 		)
 
 		Spacer(modifier = Modifier.height(Paddings.small))
@@ -165,7 +172,8 @@ fun CreateTripScreen(
 			dropDownItem = {
 				Text(it.second, style = Typography.labelLarge)
 			},
-			onDropdownItemSelected = viewModel::setTransport
+			onDropdownItemSelected = viewModel::setTransport,
+            error = formState.errors[CreateTripFields.Transport]
 		)
 
 		Spacer(modifier = Modifier.height(Paddings.small))
@@ -270,14 +278,21 @@ fun CreateTripScreen(
 							tint = MaterialTheme.colorScheme.onPrimary,
 							contentDescription = null
 						)
-					}
+					},
+                    error = formState.errors[CreateTripFields.Members]
 				)
 			}
 		}
 
 		Spacer(modifier = Modifier.height(Paddings.large))
 
-		BigButton(onClick = {}, buttonText = "Поехали!", isLoading = false)
+		BigButton(
+            onClick = {
+                viewModel.submit()
+            },
+            buttonText = "Поехали!",
+            isLoading = false
+        )
 
 		Spacer(modifier = Modifier.height(Paddings.large))
 	}
