@@ -13,3 +13,8 @@ data class LoginData(
 	val email: String,
 	val password: String
 )
+
+data class UpdateUserData(
+    val firstName: String,
+    val secondName: String
+)

@@ -88,7 +88,12 @@ fun TTasksNavHost(
 			}
 
 			composable(AppDestination.Profile.route) {
-				ProfileScreen()
+				ProfileScreen(
+                    snackbarHostState = snackbarHostState,
+                    navigateToLoginScreen = {
+                        navController.navigate(AppDestination.Login.route)
+                    }
+                )
 			}
 
 			composable(AppDestination.Dashboard.route) {

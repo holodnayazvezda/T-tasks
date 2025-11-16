@@ -20,7 +20,9 @@ import com.prod.t_tasks.R
 import com.prod.t_tasks.presentation.theme.Paddings
 
 @Composable
-fun TopLogo(modifier: Modifier = Modifier) {
+fun TopLogo(
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,

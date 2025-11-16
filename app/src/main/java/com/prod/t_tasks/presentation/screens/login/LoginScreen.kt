@@ -69,7 +69,6 @@ fun LoginScreen(
 	}
 
     LaunchedEffect(errorText) {
-        Log.d("test logo", "launched effect work")
         if (errorText.isNotEmpty()) {
             snackbarHostState.showSnackbar(
                 message = "Ошибка: $errorText",

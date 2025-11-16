@@ -28,7 +28,7 @@ class ValidateAuthFieldsUseCase {
 		password: String,
 		confirmPassword: String
 	): ValidationResult {
-		val errors = buildMap<AuthField, String> {
+		val errors = buildMap {
 			if (firstName.isBlank()) put(AuthField.FirstName, "Введите имя")
 			if (secondName.isBlank()) put(AuthField.SecondName, "Введите фамилию")
             if (confirmPassword.isBlank()) put(AuthField.ConfirmPassword, "Повторите пароль")
@@ -45,12 +45,23 @@ class ValidateAuthFieldsUseCase {
 		email: String,
 		password: String
 	): ValidationResult {
-		val errors = buildMap<AuthField, String> {
+		val errors = buildMap {
 			if (!isEmailValid(email)) put(AuthField.Email, "Некорректный email")
 			validatePassword(password)?.let { put(AuthField.Password, it) }
 		}
 		return ValidationResult(errors)
 	}
+
+    fun validateProfile(
+        firstName: String,
+        secondName: String,
+    ): ValidationResult {
+        val errors = buildMap {
+            if (firstName.isBlank()) put(AuthField.FirstName, "Введите имя")
+            if (secondName.isBlank()) put(AuthField.SecondName, "Введите фамилию")
+        }
+        return ValidationResult(errors)
+    }
 
 	private fun isEmailValid(email: String): Boolean =
 		email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()

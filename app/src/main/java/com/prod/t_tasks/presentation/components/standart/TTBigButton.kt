@@ -31,10 +31,10 @@ fun BigButton(
         onClick = onClick,
         enabled = !isLoading,
         colors = ButtonColors(
-            containerColor = colorScheme.primary,
-            contentColor = colorScheme.onPrimary,
-            disabledContainerColor = colorScheme.primary,
-            disabledContentColor = colorScheme.onPrimary
+            containerColor = colorScheme.onPrimary,
+            contentColor = colorScheme.primary,
+            disabledContainerColor = colorScheme.onPrimary,
+            disabledContentColor = colorScheme.primary
         )
     ){
         if (isLoading) {

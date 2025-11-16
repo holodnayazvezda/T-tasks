@@ -1,4 +1,4 @@
-package com.prod.t_tasks.presentation.components.mainscreen
+package com.prod.t_tasks.presentation.components.main_screen
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +46,7 @@ fun TTTextField(
 		keyboardType = KeyboardType.Text,
 		imeAction = ImeAction.Next
 	),
+    onDone: (() -> Unit)? = null,
 	trailingIcon: @Composable () -> Unit = {}
 ) {
 	val typography = MaterialTheme.typography
@@ -90,6 +92,11 @@ fun TTTextField(
 				}
 			},
 			keyboardOptions = keyboardOptions,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onDone?.invoke()
+                }
+            ),
 			singleLine = singleLine,
 			maxLines = maxLines,
 			colors = OutlinedTextFieldDefaults.colors(

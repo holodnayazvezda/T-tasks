@@ -8,6 +8,7 @@ import com.prod.t_tasks.data.data_providers.local_db.AppDatabase
 import com.prod.t_tasks.data.data_providers.local_db.entities.UserEntity
 import com.prod.t_tasks.data.dto.auth.RefreshTokenRequest
 import com.prod.t_tasks.data.dto.auth.TokenResponse
+import com.prod.t_tasks.data.dto.auth.UpdateUserRequest
 import com.prod.t_tasks.data.dto.auth.UserCreateRequest
 import com.prod.t_tasks.data.dto.auth.UserLoginRequest
 import com.prod.t_tasks.data.dto.auth.UserRegisterResponse
@@ -15,15 +16,15 @@ import com.prod.t_tasks.data.dto.auth.UserResponse
 import com.prod.t_tasks.domain.model.AuthPayload
 import com.prod.t_tasks.domain.model.AuthTokens
 import com.prod.t_tasks.domain.model.User
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
+import io.ktor.http.path
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single
-import io.ktor.http.ContentType
-import io.ktor.http.HttpMethod
-import io.ktor.http.path
-import io.ktor.client.request.setBody
-import io.ktor.http.contentType
 
 @Single
 class AuthRepository(
@@ -105,6 +106,29 @@ class AuthRepository(
 			saveTokens(it)
 		}.map { }
 	}
+
+    suspend fun updateProfile(request: UpdateUserRequest): Result<User> {
+        return networkRequest<UserResponse> {
+            method = HttpMethod.Patch
+            url {
+                path("api", "v1", "users", "profile")
+            }
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }.onSuccess { response ->
+            storeUser(response)
+        }.map { response -> response.toDomain() }
+    }
+
+    suspend fun getUser(): User? {
+        val savedUser = appDatabase.userDao().getUser()
+        return savedUser?.toDomain()
+    }
+
+    suspend fun deleteStoredUser() {
+        userDao.clear()
+        authorizationDataStore.clearTokenPair()
+    }
 
 	private suspend fun storeUser(user: UserResponse) {
 		appDatabase.withTransaction {
