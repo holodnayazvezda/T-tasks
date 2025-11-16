@@ -45,6 +45,7 @@ import com.prod.t_tasks.presentation.screens.createTrip.TSwitchField
 import com.prod.t_tasks.presentation.theme.Paddings
 import com.prod.t_tasks.presentation.theme.Typography
 import com.prod.t_tasks.presentation.utils.ErrorCollectorScope
+import com.prod.t_tasks.presentation.utils.UIState
 import com.prod.t_tasks.presentation.utils.timestampToDateWithYear
 import com.prod.t_tasks.presentation.utils.ui.DatePickerModal
 import com.prod.t_tasks.presentation.utils.ui.noRippleClickable
@@ -84,6 +85,7 @@ fun ErrorCollectorScope.AddTaskContent(
 	val cs = MaterialTheme.colorScheme
 
 	val formState by viewModel.formState.collectAsState()
+    val createTaskState by viewModel.createTaskState.collectAsState()
 
 	val openCalendarModal = remember { mutableStateOf(false) }
     val errorCategories = formState.errors[CreateTaskFields.Categories]
@@ -213,7 +215,14 @@ fun ErrorCollectorScope.AddTaskContent(
 
 		Spacer(modifier = Modifier.height(Paddings.large))
 
-		MediumButton(onClick = { viewModel.submit() }, buttonText = "Сохранить", isLoading = false)
+		MediumButton(
+            onClick = {
+                onDismiss()
+                viewModel.submit()
+            },
+            buttonText = "Сохранить",
+            isLoading = createTaskState is UIState.Loading
+        )
 
 		Spacer(Modifier.height(12.dp))
 
