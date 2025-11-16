@@ -2,6 +2,7 @@ package com.prod.t_tasks.presentation.screens.createTrip
 
 import TTTextField
 import TTTextFieldWithDropdown
+import TTTextFieldWithSearch
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -74,7 +75,10 @@ fun CreateTripScreen(
 		Spacer(modifier = Modifier.height(Paddings.large))
 
 		TTTextField(
-			value = formState.dateStart?.let { start ->
+			onClick =  {
+				openCalendarModal.value = true
+			},
+			value = formState . dateStart ?. let { start ->
 				formState.dateEnd?.let { end ->
 					"${
 						timestampToDateWithYear(
@@ -91,10 +95,7 @@ fun CreateTripScreen(
 			trailingIcon = {
 				Icon(
 					modifier = Modifier
-						.size(24.dp)
-						.noRippleClickable {
-							openCalendarModal.value = true
-						},
+						.size(24.dp),
 					painter = painterResource(
 						R.drawable.ic_calendar
 					),
@@ -246,9 +247,7 @@ fun CreateTripScreen(
 
 				Spacer(modifier = Modifier.height(Paddings.medium))
 
-				TTTextFieldWithDropdown(
-					modifier = Modifier
-						.fillMaxWidth(),
+				TTTextFieldWithSearch(
 					value = viewModel.currentEmailValue.collectAsState().value,
 					onValueChange = viewModel::searchEmailChanged,
 					readOnly = false,

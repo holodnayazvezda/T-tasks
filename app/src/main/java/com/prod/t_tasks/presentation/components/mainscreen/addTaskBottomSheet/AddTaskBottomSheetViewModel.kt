@@ -1,5 +1,6 @@
 package com.prod.t_tasks.presentation.components.mainscreen.addTaskBottomSheet
 
+import android.util.Log
 import com.prod.t_tasks.domain.usecase.tasks.LoadTasksTopicListUseCase
 import com.prod.t_tasks.presentation.commonDataModels.UITaskTopicModel
 import com.prod.t_tasks.presentation.commonDataModels.UITripModel
@@ -95,16 +96,19 @@ class AddTaskBottomSheetViewModel(
 	}
 
 	fun toggleCategory(id: Int) {
+		Log.d("AddTaskBottomSheetViewModel", "toggle category $id")
 		if (id in _formState.value.selectedCategories) {
+			Log.d("AddTaskBottomSheetViewModel", "exists - deleting")
 			_formState.update {
 				it.copy(
-					selectedCategories = it.selectedCategories + listOf(id)
+					selectedCategories = it.selectedCategories.minus(id)
 				)
 			}
 		} else {
+			Log.d("AddTaskBottomSheetViewModel", "adding")
 			_formState.update {
 				it.copy(
-					selectedCategories = it.selectedCategories - setOf(id)
+					selectedCategories = it.selectedCategories.plus(id)
 				)
 			}
 		}

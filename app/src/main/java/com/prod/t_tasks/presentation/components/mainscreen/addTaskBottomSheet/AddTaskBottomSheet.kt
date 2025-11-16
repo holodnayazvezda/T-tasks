@@ -146,6 +146,9 @@ fun ErrorCollectorScope.AddTaskContent(
 		Spacer(Modifier.height(Paddings.medium))
 
 		TTTextField(
+			onClick = {
+				openCalendarModal.value = true
+			},
 			value = formState.deadline?.let { timestampToDateWithYear(it) } ?: "",
 			readOnly = true,
 			onValueChange = {},
@@ -153,10 +156,7 @@ fun ErrorCollectorScope.AddTaskContent(
 			trailingIcon = {
 				Icon(
 					modifier = Modifier
-						.size(24.dp)
-						.noRippleClickable {
-							openCalendarModal.value = true
-						},
+						.size(24.dp),
 					painter = painterResource(
 						R.drawable.ic_calendar
 					),

@@ -36,44 +36,7 @@ data class TripCreateFormState(
 	val countMediumChildren: Int = 0,
 	val countBigChildren: Int = 0,
 	val pets: Boolean = false,
-	val members: List<Pair<Long, String>> = listOf(
-		Pair(
-			0L,
-			"Владимир"
-		),
-		Pair(
-			0L,
-			"Мария"
-		),
-		Pair(
-			0L,
-			"Петр"
-		),
-		Pair(
-			0L,
-			"Владимир"
-		),
-		Pair(
-			0L,
-			"Мария"
-		),
-		Pair(
-			0L,
-			"Петр"
-		),
-		Pair(
-			0L,
-			"Владимир"
-		),
-		Pair(
-			0L,
-			"Мария"
-		),
-		Pair(
-			0L,
-			"Петр"
-		)
-	)
+	val members: List<Pair<Long, String>> = emptyList()
 )
 
 @KoinViewModel
