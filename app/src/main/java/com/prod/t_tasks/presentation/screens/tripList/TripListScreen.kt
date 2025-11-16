@@ -105,7 +105,7 @@ fun ErrorCollectorScope.TripListScreen(
 			}
 		}
 
-		if (tasksIsNotEmpty) {
+		if (!tasksIsNotEmpty) {
 			TTFloatingActionButton(
 				modifier = Modifier
 					.align(Alignment.BottomCenter)
