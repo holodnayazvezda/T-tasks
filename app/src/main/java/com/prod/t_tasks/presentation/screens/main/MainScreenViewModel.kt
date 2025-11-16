@@ -4,22 +4,19 @@ import android.util.Log
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.map
 import com.prod.t_tasks.domain.model.TaskFilters
 import com.prod.t_tasks.domain.usecase.tasks.LoadTasksTopicListUseCase
 import com.prod.t_tasks.domain.usecase.tasks.LoadTasksUseCase
-import com.prod.t_tasks.domain.usecase.tasks.MarkTaskAsDoneUseCase
+import com.prod.t_tasks.domain.usecase.tasks.SetFinishedStateToTaskUseCase
 import com.prod.t_tasks.presentation.commonDataModels.UITaskTopicModel
 import com.prod.t_tasks.presentation.commonDataModels.mapToUI
-import com.prod.t_tasks.presentation.utils.UIState
 import com.prod.t_tasks.presentation.utils.base.BaseViewModel
 import com.prod.t_tasks.presentation.utils.convertGMTToSystemTimezone
 import com.prod.t_tasks.presentation.utils.getStartOfTodayTimestamp
 import com.prod.t_tasks.presentation.utils.timestampToDate
-import com.prod.t_tasks.presentation.utils.toggleItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,7 +30,7 @@ import org.koin.android.annotation.KoinViewModel
 class MainScreenViewModel(
 	private val loadTasksUseCase: LoadTasksUseCase,
 	private val loadTasksTopicsListUseCase: LoadTasksTopicListUseCase,
-	private val markTaskAsDoneUseCase: MarkTaskAsDoneUseCase
+	private val setFinishedStateToTaskUseCase: SetFinishedStateToTaskUseCase
 ) : BaseViewModel() {
 
 	var userChanged = false
@@ -117,26 +114,36 @@ class MainScreenViewModel(
 
 	val archiveWaitingTasksIds = derivedStateOf { archiveWaitingTaskJobs.keys }
 
-	fun toggleTaskAsDone(id: Long) {
-		if (id in archiveWaitingTasksIds.value) {
-			archiveWaitingTaskJobs[id]?.let { job ->
-				if (!job.isCompleted) {
-					job.cancel()
+	fun toggleTaskAsDone(tripId: Long, taskId: Long, currState: Boolean) {
+		if (currState) {
+			viewModelScope.launch {
+				setFinishedStateToTaskUseCase(
+					tripId = tripId,
+					taskId = taskId,
+					finishedState = false
+				)
+			}
+		} else {
+			if (taskId in archiveWaitingTasksIds.value) {
+				archiveWaitingTaskJobs[taskId]?.let { job ->
+					if (!job.isCompleted) {
+						job.cancel()
+					}
+				}
+				archiveWaitingTaskJobs.remove(taskId)
+			} else {
+				archiveWaitingTaskJobs[taskId] = viewModelScope.launch {
+					delay(1000)
+					setFinishedStateToTaskUseCase(
+						tripId = tripId,
+						taskId = taskId,
+						finishedState = true
+					)
+				}.also {
+					it.start()
 				}
 			}
-			archiveWaitingTaskJobs.remove(id)
-		} else {
-			archiveWaitingTaskJobs[id] = viewModelScope.launch {
-				delay(1000)
-				markTaskAsDoneUseCase()
-			}.also {
-				it.start()
-			}
 		}
-	}
-
-	fun onAddTaskClick() {
-		// TODO: handle navigation to create task screen
 	}
 
 	fun update() {

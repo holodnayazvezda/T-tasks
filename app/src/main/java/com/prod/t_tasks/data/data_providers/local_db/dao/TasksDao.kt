@@ -38,4 +38,7 @@ interface TasksDao {
 		data: List<TaskEntity>
 	)
 
+	@Query("UPDATE tasks SET archived = :state WHERE id = :id")
+	suspend fun setTaskArchivedState(id: Long, state: Boolean)
+
 }

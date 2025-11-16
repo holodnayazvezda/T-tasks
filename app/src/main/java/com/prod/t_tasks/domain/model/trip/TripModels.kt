@@ -31,7 +31,8 @@ data class TripsTask(
 	val isCommon: Boolean,
 	val deadline: Long,
 	val categories: List<TaskCategory>,
-	val common: Boolean
+	val common: Boolean,
+	val tripId: Long
 )
 
 data class TripMember(

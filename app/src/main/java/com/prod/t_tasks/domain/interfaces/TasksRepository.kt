@@ -12,8 +12,18 @@ interface TasksRepository {
 	fun loadTopics(): Flow<Result<List<TaskCategory>>>
 
 	fun loadTasksByFilters(filters: TaskFilters): RemotePagingWrapper<Task>
-    suspend fun createTask(
-        tripId: Long,
-        createTaskDTO: CreateTaskDTO
-    ): Result<Task>
+	suspend fun createTask(
+		tripId: Long,
+		createTaskDTO: CreateTaskDTO
+	): Result<Task>
+
+	suspend fun markTaskAsFinished(
+		tripId: Long,
+		taskId: Long
+	)
+
+	suspend fun markTaskOpen(
+		tripId: Long,
+		taskId: Long
+	)
 }

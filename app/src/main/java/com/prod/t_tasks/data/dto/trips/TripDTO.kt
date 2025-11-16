@@ -29,7 +29,7 @@ data class TripDTO(
 		purpose = purpose,
 		membersCount = members.size,
 		members = members.map { it.mapToDomain() },
-		tasks = tasks.map { it.mapToDomain() }
+		tasks = tasks.map { it.mapToDomain(id) }
 	)
 }
 

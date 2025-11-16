@@ -42,7 +42,7 @@ class TripsRepositoryImpl(
 	}
 
 	private suspend fun clearCache() {
-//		tripsDao.clearCache(System.currentTimeMillis() - 43200000)
+		tripsDao.clearCache(System.currentTimeMillis() - 43200000)
 	}
 
 	private suspend fun getTripsNetwork(): Result<List<Trip>> {

@@ -16,7 +16,8 @@ data class TaskEntity(
 	val typeIds: String,
 	val deadline: Long,
 	val archived: Boolean,
-	val common: Boolean
+	val common: Boolean,
+	val tripId: Long
 ) : BaseEntity {
 	fun mapToDomain(): Task = Task(
 		id = id,
@@ -24,6 +25,7 @@ data class TaskEntity(
 		typeIds = typeIds.split("|").mapNotNull { it.toIntOrNull() },
 		deadline = deadline,
 		archived = archived,
-		common = common
+		common = common,
+		tripId = tripId
 	)
 }

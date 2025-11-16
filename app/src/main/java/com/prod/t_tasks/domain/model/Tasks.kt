@@ -6,7 +6,8 @@ data class Task(
 	val typeIds: List<Int>,
 	val deadline: Long,
 	val archived: Boolean,
-	val common: Boolean
+	val common: Boolean,
+	val tripId: Long
 )
 
 data class TaskCategory(

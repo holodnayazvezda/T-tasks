@@ -1,6 +1,5 @@
 package com.prod.t_tasks.data.repositories
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.map
 import com.prod.t_tasks.data.base.BasePaginationDAO
@@ -9,6 +8,7 @@ import com.prod.t_tasks.data.data_providers.api.ApiKtorClient
 import com.prod.t_tasks.data.data_providers.local_db.AppDatabase
 import com.prod.t_tasks.data.data_providers.local_db.entities.TaskEntity
 import com.prod.t_tasks.data.data_providers.local_db.entities.mapToDB
+import com.prod.t_tasks.data.dto.tasks.ChangeStatusDTO
 import com.prod.t_tasks.data.dto.tasks.CreateTaskDTO
 import com.prod.t_tasks.data.dto.tasks.TaskCategoryDTO
 import com.prod.t_tasks.data.dto.tasks.TaskDTO
@@ -17,7 +17,6 @@ import com.prod.t_tasks.domain.interfaces.TasksRepository
 import com.prod.t_tasks.domain.model.Task
 import com.prod.t_tasks.domain.model.TaskCategory
 import com.prod.t_tasks.domain.model.TaskFilters
-import com.prod.t_tasks.domain.model.trip.TripsTask
 import com.prod.t_tasks.domain.utils.RemotePagingWrapper
 import com.prod.t_tasks.domain.utils.convertToNetworkError
 import io.ktor.client.request.setBody
@@ -140,9 +139,53 @@ class TasksRepositoryImpl(
 			setBody(createTaskDTO)
 			contentType(ContentType.Application.Json)
 		}.map {
-			it.mapToDB().also {
+			it.mapToDB(tripId).also {
 				tasksDao.upsert(listOf(it))
 			}.mapToDomain()
+		}
+	}
+
+	override suspend fun markTaskAsFinished(tripId: Long, taskId: Long) {
+		networkRequest<TaskDTO> {
+			method = HttpMethod.Post
+			url {
+				path(
+					"api",
+					"v1",
+					"tasks",
+					"trip",
+					tripId.toString(),
+					taskId.toString(),
+					"user_status"
+				)
+			}
+
+			setBody(ChangeStatusDTO("completed"))
+			contentType(ContentType.Application.Json)
+		}.onSuccess {
+			tasksDao.setTaskArchivedState(taskId, true)
+		}
+	}
+
+	override suspend fun markTaskOpen(tripId: Long, taskId: Long) {
+		networkRequest<TaskDTO> {
+			method = HttpMethod.Post
+			url {
+				path(
+					"api",
+					"v1",
+					"tasks",
+					"trip",
+					tripId.toString(),
+					taskId.toString(),
+					"user_status"
+				)
+			}
+
+			setBody(ChangeStatusDTO("pending"))
+			contentType(ContentType.Application.Json)
+		}.onSuccess {
+			tasksDao.setTaskArchivedState(taskId, false)
 		}
 	}
 }

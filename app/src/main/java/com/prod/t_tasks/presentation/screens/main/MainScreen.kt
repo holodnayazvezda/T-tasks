@@ -115,7 +115,7 @@ fun ErrorCollectorScope.MainScreen(
 								taskInfo = it,
 								isArchiveWaiting = it.id in viewModel.archiveWaitingTasksIds.value
 							) {
-								viewModel.toggleTaskAsDone(id = it.id)
+								viewModel.toggleTaskAsDone(tripId = it.tripId, taskId = it.id, currState = it.archived)
 								tasks.refresh()
 							}
 						}

@@ -13,7 +13,7 @@ import com.prod.t_tasks.data.data_providers.local_db.entities.UserEntity
 
 @Database(
 	entities = [UserEntity::class, TaskCategoryEntity::class, TripEntity::class, TaskEntity::class],
-	version = 4,
+	version = 5,
 	exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
