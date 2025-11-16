@@ -11,17 +11,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.prod.t_tasks.presentation.components.mainscreen.addTaskBottomSheet.AddTaskBottomSheet
 import com.prod.t_tasks.presentation.components.mainscreen.BubbledCategoryFilters
 import com.prod.t_tasks.presentation.components.mainscreen.MainScreenFilters
 import com.prod.t_tasks.presentation.components.mainscreen.TaskCard
@@ -35,12 +37,15 @@ import com.prod.t_tasks.presentation.utils.ui.DateRangePickerModal
 import org.koin.androidx.compose.koinViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ErrorCollectorScope.MainScreen(
 	modifier: Modifier = Modifier,
 	viewModel: MainScreenViewModel = koinViewModel()
 ) {
 	val openCalendarModal = remember { mutableStateOf(false) }
+	val openTaskAddSheet = remember { mutableStateOf(false) }
+	val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 	val tasks = viewModel.taskList.collectAsLazyPagingItems()
 
 	Box(
@@ -128,7 +133,9 @@ fun ErrorCollectorScope.MainScreen(
 				modifier = Modifier
 					.align(Alignment.BottomCenter)
 					.padding(bottom = Paddings.medium),
-				onClick = viewModel::onAddTaskClick,
+				onClick = {
+					openTaskAddSheet.value = true
+				},
 				text = "Добавить задачу"
 			)
 		}
@@ -145,5 +152,14 @@ fun ErrorCollectorScope.MainScreen(
 		}) {
 			openCalendarModal.value = false
 		}
+	}
+
+	if (openTaskAddSheet.value){
+		AddTaskBottomSheet(
+			sheetState = sheetState,
+			onDismiss = {
+				openTaskAddSheet.value = false
+			}
+		)
 	}
 }

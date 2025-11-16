@@ -9,6 +9,11 @@ data class Task(
 	val common: Boolean
 )
 
+data class TaskCategory(
+	val id: Int,
+	val name: String
+)
+
 data class TaskFilters(
 	val dateStart: Long,
 	val dateEnd: Long,

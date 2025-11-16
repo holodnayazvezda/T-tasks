@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.prod.t_tasks.presentation.theme.Shapes
 
 @Composable
 fun BigButton(
@@ -26,7 +27,7 @@ fun BigButton(
         modifier = modifier
             .fillMaxWidth()
             .height(60.dp),
-        shape = RoundedCornerShape(10.dp),
+        shape = Shapes.smallRoundedBox,
         onClick = onClick,
         enabled = !isLoading,
         colors = ButtonColors(
@@ -46,4 +47,39 @@ fun BigButton(
             )
         }
     }
+}
+
+@Composable
+fun MediumButton(
+	modifier: Modifier = Modifier,
+	onClick: () -> Unit,
+	buttonText: String,
+	isLoading: Boolean
+) {
+	val colorScheme = MaterialTheme.colorScheme
+	val typography = MaterialTheme.typography
+	Button(
+		modifier = modifier
+			.fillMaxWidth()
+			.height(40.dp),
+		shape = Shapes.smallRoundedBox,
+		onClick = onClick,
+		enabled = !isLoading,
+		colors = ButtonColors(
+			containerColor = colorScheme.primary,
+			contentColor = colorScheme.onPrimary,
+			disabledContainerColor = colorScheme.primary,
+			disabledContentColor = colorScheme.onPrimary
+		)
+	){
+		if (isLoading) {
+			CircularProgressIndicator()
+		} else {
+			Text(
+				text = buttonText,
+				style = typography.labelMedium,
+				fontSize = 16.sp,
+			)
+		}
+	}
 }

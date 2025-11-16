@@ -1,16 +1,15 @@
 package com.prod.t_tasks.presentation.screens.main
 
 import android.util.Log
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.res.integerResource
 import androidx.lifecycle.viewModelScope
 import androidx.paging.map
 import com.prod.t_tasks.domain.model.TaskFilters
+import com.prod.t_tasks.domain.usecase.tasks.LoadTasksTopicListUseCase
 import com.prod.t_tasks.domain.usecase.tasks.LoadTasksUseCase
 import com.prod.t_tasks.domain.usecase.tasks.MarkTaskAsDoneUseCase
 import com.prod.t_tasks.presentation.commonDataModels.UITaskTopicModel
@@ -33,6 +32,7 @@ import org.koin.android.annotation.KoinViewModel
 @KoinViewModel
 class MainScreenViewModel(
 	private val loadTasksUseCase: LoadTasksUseCase,
+	private val loadTasksTopicsListUseCase: LoadTasksTopicListUseCase,
 	private val markTaskAsDoneUseCase: MarkTaskAsDoneUseCase
 ) : BaseViewModel() {
 
@@ -83,26 +83,8 @@ class MainScreenViewModel(
 	val topicList = MutableUIStateFlow<List<UITaskTopicModel>>()
 
 	fun loadTopicList() {
-		viewModelScope.launch {
-			topicList.emit(
-				UIState.Success(
-					listOf(
-						UITaskTopicModel(
-							0, "Documents"
-						),
-						UITaskTopicModel(
-							1, "Documents2"
-						),
-						UITaskTopicModel(
-							2, "Documents3"
-						),
-						UITaskTopicModel(
-							3, "Documents4"
-						)
-					)
-				)
-			)
-		}
+		loadTasksTopicsListUseCase().map { it -> it.map { it -> it.map { it.mapToUI() } } }
+			.collectRequest(topicList)
 	}
 
 	fun selectTopic(id: Int) {
