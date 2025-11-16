@@ -11,6 +11,8 @@ enum class AuthField {
 	ConfirmPassword
 }
 
+
+
 data class ValidationResult(
 	val errors: Map<AuthField, String> = emptyMap()
 ) {

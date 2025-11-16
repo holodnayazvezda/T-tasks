@@ -240,7 +240,8 @@ fun CreateTripScreen(
 					formState.members.forEach {
 						CategoryBubble(
 							name = it.second,
-							isSelected = false
+							isSelected = false,
+                            error = null
 						) {}
 					}
 				}

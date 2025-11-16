@@ -8,14 +8,18 @@ import com.prod.t_tasks.data.data_providers.api.ApiKtorClient
 import com.prod.t_tasks.data.data_providers.local_db.AppDatabase
 import com.prod.t_tasks.data.data_providers.local_db.entities.TaskEntity
 import com.prod.t_tasks.data.data_providers.local_db.entities.mapToDB
+import com.prod.t_tasks.data.dto.tasks.CreateTaskDTO
 import com.prod.t_tasks.data.dto.tasks.TaskCategoryDTO
+import com.prod.t_tasks.data.dto.tasks.TaskDTO
 import com.prod.t_tasks.data.dto.tasks.TaskFullDTO
 import com.prod.t_tasks.domain.interfaces.TasksRepository
 import com.prod.t_tasks.domain.model.Task
 import com.prod.t_tasks.domain.model.TaskCategory
 import com.prod.t_tasks.domain.model.TaskFilters
+import com.prod.t_tasks.domain.model.trip.TripsTask
 import com.prod.t_tasks.domain.utils.RemotePagingWrapper
 import com.prod.t_tasks.domain.utils.convertToNetworkError
+import io.ktor.client.request.setBody
 import io.ktor.http.HttpMethod
 import io.ktor.http.path
 import kotlinx.coroutines.flow.Flow
@@ -120,4 +124,17 @@ class TasksRepositoryImpl(
 			}
 		).map { it -> it.map { it.mapToDomain() } }
 	}
+
+    override suspend fun createTask(
+        tripId: Long,
+        createTaskDTO: CreateTaskDTO
+    ): Result<TripsTask> {
+        return networkRequest<TaskDTO> {
+            method = HttpMethod.Post
+            url {
+                path("api", "v1", "tasks", "trip", tripId.toString())
+            }
+            setBody(createTaskDTO)
+        }.map { it.mapToDomain() }
+    }
 }

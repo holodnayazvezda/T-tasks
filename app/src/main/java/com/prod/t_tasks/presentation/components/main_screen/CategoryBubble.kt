@@ -21,14 +21,15 @@ fun CategoryBubble(
     modifier: Modifier = Modifier,
     name: String,
     isSelected: Boolean,
+    error: String? = null,
     onClick: () -> Unit
 ) {
     val bubbleColor =
-        animateColorAsState(if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary)
+        animateColorAsState(if (error == null) { if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary } else { MaterialTheme.colorScheme.onErrorContainer })
     val bubbleBorderColor =
-        animateColorAsState(if (isSelected) MaterialTheme.colorScheme.primaryFixed else MaterialTheme.colorScheme.secondaryFixed)
+        animateColorAsState(if (error == null) { if (isSelected) MaterialTheme.colorScheme.primaryFixed else MaterialTheme.colorScheme.secondaryFixed } else { MaterialTheme.colorScheme.errorContainer } )
     val textColor =
-        animateColorAsState(if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondary)
+        animateColorAsState(if (error == null) { if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondary } else { MaterialTheme.colorScheme.onError })
     Text(
         modifier = modifier
             .background(

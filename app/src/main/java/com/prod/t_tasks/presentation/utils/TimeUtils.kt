@@ -49,3 +49,7 @@ fun timestampToDateWithYear(timestamp: Long, timeZone: TimeZone = TimeZone.getDe
 fun convertGMTToSystemTimezone(gmtTimestamp: Long): Long {
 	return getStartOfDayTimestamp(Date(gmtTimestamp))
 }
+
+fun timestampToIso(timestamp: Long): String {
+    return Instant.ofEpochMilli(timestamp).toString()
+}

@@ -21,3 +21,13 @@ data class TaskFilters(
 	val onlySelf: Boolean,
 	val showArchived: Boolean
 )
+
+data class CreateTask(
+    val tripId: Long,
+    val title: String,
+    val description: String,
+    val dueTime: Long,
+    val status: String,
+    val categoriesIds: List<Int>,
+    val isCommon: Boolean
+)

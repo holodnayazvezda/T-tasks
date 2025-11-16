@@ -20,6 +20,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
@@ -36,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prod.t_tasks.R
+import com.prod.t_tasks.domain.usecase.tasks.CreateTaskFields
 import com.prod.t_tasks.presentation.components.main_screen.CategoryBubble
 import com.prod.t_tasks.presentation.components.standart.MediumButton
 import com.prod.t_tasks.presentation.screens.createTrip.TSwitchField
@@ -52,7 +55,6 @@ import org.koin.androidx.compose.koinViewModel
 fun ErrorCollectorScope.AddTaskBottomSheet(
 	sheetState: SheetState,
 	onDismiss: () -> Unit,
-	onSave: () -> Unit = onDismiss,
 	viewModel: AddTaskBottomSheetViewModel = koinViewModel()
 ) {
 
@@ -64,10 +66,9 @@ fun ErrorCollectorScope.AddTaskBottomSheet(
 	) {
 		AddTaskContent(
 			modifier = Modifier
-				.fillMaxWidth()
-				.navigationBarsPadding()
-				.imePadding(),
-			onSave = onSave,
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .imePadding(),
 			onDismiss = onDismiss,
 			viewModel = viewModel
 		)
@@ -77,7 +78,6 @@ fun ErrorCollectorScope.AddTaskBottomSheet(
 @Composable
 fun ErrorCollectorScope.AddTaskContent(
 	modifier: Modifier = Modifier,
-	onSave: () -> Unit,
 	onDismiss: () -> Unit,
 	viewModel: AddTaskBottomSheetViewModel
 ) {
@@ -86,12 +86,13 @@ fun ErrorCollectorScope.AddTaskContent(
 	val formState by viewModel.formState.collectAsState()
 
 	val openCalendarModal = remember { mutableStateOf(false) }
+    val errorCategories = formState.errors[CreateTaskFields.Categories]
 
 
 	Column(
 		modifier = modifier
-			.padding(horizontal = 24.dp, vertical = 16.dp)
-			.verticalScroll(rememberScrollState()),
+            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .verticalScroll(rememberScrollState()),
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
 		Text(
@@ -100,8 +101,8 @@ fun ErrorCollectorScope.AddTaskContent(
 			fontSize = 22.sp,
 			textAlign = TextAlign.Center,
 			modifier = Modifier
-				.fillMaxWidth()
-				.padding(bottom = 24.dp, top = 8.dp)
+                .fillMaxWidth()
+                .padding(bottom = 24.dp, top = 8.dp)
 		)
 
 		TTTextFieldWithDropdown(
@@ -116,14 +117,16 @@ fun ErrorCollectorScope.AddTaskContent(
 					Text(it.dateRangeString, style = Typography.labelLarge)
 				}
 			},
-			onDropdownItemSelected = viewModel::setTrip
+			onDropdownItemSelected = viewModel::setTrip,
+            error = formState.errors[CreateTaskFields.Trip]
 		)
 
 		Spacer(Modifier.height(Paddings.medium))
 		TTTextField(
 			value = formState.taskName,
 			onValueChange = viewModel::setTaskName,
-			label = "Название"
+			label = "Название",
+            error = formState.errors[CreateTaskFields.Name]
 		)
 
 		Spacer(Modifier.height(Paddings.medium))
@@ -133,7 +136,8 @@ fun ErrorCollectorScope.AddTaskContent(
 			onValueChange = viewModel::setWhatNeedToDo,
 			label = "Что нужно сделать",
 			singleLine = false,
-			maxLines = 5
+			maxLines = 5,
+            error = formState.errors[CreateTaskFields.WhatNeedToDo]
 		)
 
 		Spacer(Modifier.height(Paddings.medium))
@@ -142,7 +146,8 @@ fun ErrorCollectorScope.AddTaskContent(
 			onValueChange = viewModel::setReason,
 			label = "Зачем это нужно",
 			singleLine = false,
-			maxLines = 5
+			maxLines = 5,
+            error = formState.errors[CreateTaskFields.Reason]
 		)
 
 		Spacer(Modifier.height(Paddings.medium))
@@ -165,7 +170,8 @@ fun ErrorCollectorScope.AddTaskContent(
 					tint = MaterialTheme.colorScheme.onPrimary,
 					contentDescription = null
 				)
-			}
+			},
+            error = formState.errors[CreateTaskFields.Deadline]
 		)
 
 		Spacer(Modifier.height(Paddings.large))
@@ -180,6 +186,15 @@ fun ErrorCollectorScope.AddTaskContent(
 		Spacer(modifier = Modifier.height(Paddings.large))
 
 		viewModel.topicList.FoldUIStateWithGlobalCallbacks {
+            if (errorCategories != null) {
+                Text(
+                    text = errorCategories,
+                    style = typography.labelLarge,
+                    fontSize = 14.sp,
+                    color = colorScheme.error
+                )
+                Spacer(Modifier.height(5.dp))
+            }
 			FlowRow(
 				horizontalArrangement = Arrangement.spacedBy(Paddings.small),
 				verticalArrangement = Arrangement.spacedBy(Paddings.small)
@@ -187,7 +202,8 @@ fun ErrorCollectorScope.AddTaskContent(
 				it.forEach { topic ->
 					CategoryBubble(
 						name = topic.name,
-						isSelected = topic.id in formState.selectedCategories
+						isSelected = topic.id in formState.selectedCategories,
+                        error = formState.errors[CreateTaskFields.Categories]
 					) {
 						viewModel.toggleCategory(topic.id)
 					}
@@ -197,12 +213,15 @@ fun ErrorCollectorScope.AddTaskContent(
 
 		Spacer(modifier = Modifier.height(Paddings.large))
 
-		MediumButton(onClick = onSave, buttonText = "Сохранить", isLoading = false)
+		MediumButton(onClick = { viewModel.submit() }, buttonText = "Сохранить", isLoading = false)
 
 		Spacer(Modifier.height(12.dp))
 
 		TextButton(
-			onClick = onDismiss,
+			onClick = {
+                onDismiss()
+                viewModel.reset()
+              },
 			modifier = Modifier.fillMaxWidth()
 		) {
 			Text(
